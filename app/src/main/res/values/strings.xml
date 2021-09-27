@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GroupProject</string>
+    <string name="developers">Wednesday Wilson and Harmon Transfield</string>
+    <string name="game_title">Mini Golf</string>
+    <string name="str_btn_start">Play</string>
+    <string name="str_btn_high_score">High Scores</string>
 </resources>
