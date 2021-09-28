@@ -3,6 +3,7 @@ package com.example.groupproject;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,5 +21,11 @@ public class GameOverActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+    }
+
+    // When Highscores button is clicked, go to Highscores screen
+    public void onclickHighscoreScreen(View view) {
+        Intent highScoreScreen = new Intent(this, HighscoreActivity.class);
+        startActivity(highScoreScreen);
     }
 }
