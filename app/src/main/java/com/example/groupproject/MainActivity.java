@@ -26,9 +26,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // When play button is clicked, go to game screen
+    // When Play button is clicked, go to game screen
     public void onclickGameStart(View view) {
-        Intent i = new Intent(this, GameActivity.class);
-        startActivity(i);
+        Intent gameStartScreen = new Intent(this, GameActivity.class);
+        startActivity(gameStartScreen);
+    }
+
+    // When Highscores button is clicked, go to Highscores screen
+    public void onclickHighscoreScreen(View view) {
+        Intent highScoreScreen = new Intent(this, HighscoreActivity.class);
+        startActivity(highScoreScreen);
     }
 }
