@@ -15,5 +15,9 @@ public class MainActivity extends AppCompatActivity {
         // *testing* auto open the game activity on start
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
+
+        // *testing* auto open the game OVER activity on start
+        //Intent i = new Intent(this, GameOverActivity.class);
+        //startActivity(i);
     }
 }
