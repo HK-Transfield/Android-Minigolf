@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".HighscoreActivity"
     android:orientation="vertical"
-    android:background="#818381"
+    android:background="@color/white"
     android:id="@+id/highscore_screen">
 
     !-- Highscore title -->
@@ -17,10 +17,10 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/black"
         android:layout_weight="1"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:autoSizeTextType="uniform">
     </TextView>
 
     <!-- High score things -->
@@ -30,7 +30,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:orientation="horizontal"
-        android:background="#CDCDC5"
+        android:background="@color/green"
         android:layout_margin="20dp">
 
         <!-- ***** Add High scores ranks -->
@@ -44,9 +44,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="@string/play_again_button_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@color/white"
         android:layout_margin="20dp"
-        android:onClick="onclickGameStart">
+        android:onClick="onclickGameStart"
+        android:autoSizeTextType="uniform">
     </Button>
 </LinearLayout>

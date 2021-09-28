@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".GameOverActivity"
     android:orientation="vertical"
-    android:background="#CDDC39">
+    android:background="@color/white">
 
     !-- Game over title -->
     <TextView
@@ -19,7 +19,8 @@
         android:textColor="#000000"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_weight="1"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:autoSizeTextType="uniform">
     </TextView>
 
     <!-- Score things -->
@@ -105,9 +106,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
+        android:textAppearance="@color/material_on_primary_emphasis_high_type"
         android:layout_weight="1"
         android:text="@string/high_scores_button_text"
-        android:onClick="onclickHighscoreScreen"></Button>
+        android:onClick="onclickHighscoreScreen"
+        android:autoSizeTextType="uniform">
+    </Button>
 
     <Button
         android:id="@+id/button_play_again"
@@ -116,7 +120,8 @@
         android:layout_weight="1"
         android:text="@string/play_again_button_text"
         android:layout_margin="20dp"
-        android:onClick="onclickPlayAgain">
+        android:onClick="onclickPlayAgain"
+        android:autoSizeTextType="uniform">
     </Button>
 
 </LinearLayout>
