@@ -28,4 +28,10 @@ public class GameOverActivity extends AppCompatActivity {
         Intent highScoreScreen = new Intent(this, HighscoreActivity.class);
         startActivity(highScoreScreen);
     }
+
+    // When Play Again button is clicked, go to Game screen
+    public void onclickPlayAgain(View view) {
+        Intent playAgain = new Intent(this, GameActivity.class);
+        startActivity(playAgain);
+    }
 }
