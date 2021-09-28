@@ -13,14 +13,16 @@
         android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:background="#4CAF50"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image_desc_grass" />
 
     <!-- Text for score & moves left -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,7 +33,7 @@
                 android:id="@+id/gamescreen_score_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Score:"
+                android:text="@string/score_title"
                 android:textColor="#000000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_margin="5dp"
@@ -41,7 +43,7 @@
                 android:id="@+id/gamescreen_score_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="000"
+                android:text="@string/score_value"
                 android:textColor="#000000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_margin="5dp"
@@ -57,7 +59,7 @@
                 android:id="@+id/gamescreen_moves_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Moves Left:"
+                android:text="@string/moves_left_title"
                 android:textColor="#000000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_margin="5dp"
@@ -67,7 +69,7 @@
                 android:id="@+id/gamescreen_moves_left_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="00"
+                android:text="@string/moves_left_value"
                 android:textColor="#000000"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_margin="5dp"
