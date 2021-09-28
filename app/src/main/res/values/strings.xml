@@ -1,7 +1,26 @@
 <resources>
     <string name="app_name">GroupProject</string>
+<<<<<<< app/src/main/res/values/strings.xml
+    <string name="your_score_title">Your Score:</string>
+    <string name="player_score_value">00000</string>
+    <string name="game_over_screen_title">Game Over!</string>
+    <string name="high_score_rank_title">High score rank:</string>
+    <string name="player_rank_text">0</string>
+    <string name="play_again_button_text">Play again</string>
+    <string name="high_scores_button_text">High Scores</string>
+    <string name="score_title">Score:</string>
+    <string name="score_value">000</string>
+    <string name="moves_left_title">Moves Left:</string>
+    <string name="moves_left_value">00</string>
+    <string name="image_desc_grass">Grass</string>
     <string name="developers">Wednesday Wilson and Harmon Transfield</string>
     <string name="game_title">Mini Golf</string>
     <string name="str_btn_start">Play</string>
     <string name="str_btn_high_score">High Scores</string>
+=======
+    <string name="developers">Wednesday Wilson and Harmon Transfield</string>
+    <string name="game_title">Mini Golf</string>
+    <string name="str_btn_start">Play</string>
+    <string name="str_btn_high_score">High Scores</string>
+>>>>>>> app/src/main/res/values/strings.xml
 </resources>
