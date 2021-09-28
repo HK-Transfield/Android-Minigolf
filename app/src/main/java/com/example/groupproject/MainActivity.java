@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        
         // hide the action and status bar from
         // the user. Keep the navigation bar so
         // they can sill exit out of the game
@@ -23,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-
     }
 
     // When Play button is clicked, go to game screen

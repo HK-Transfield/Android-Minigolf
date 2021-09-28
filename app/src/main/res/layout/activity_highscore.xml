@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".HighscoreActivity"
     android:orientation="vertical"
-    android:background="@color/green"
+    android:background="@color/darkerGreen"
     android:id="@+id/highscore_screen">
 
-    !-- Highscore title -->
+    <!-- Highscore title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="High Scores"
+        android:text="@string/high_scores_title"
         android:layout_gravity="center"
         android:gravity="center"
         android:textAlignment="center"
@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:layout_weight="5"
-        android:background="@color/green"
+        android:layout_weight="7"
+        android:background="@color/darkerGreen"
         android:orientation="horizontal">
 
         <!-- High scores numbers -->
@@ -61,8 +61,8 @@
         android:layout_weight="1"
         android:text="@string/play_again_button_text"
         android:textColor="@color/white"
-        android:layout_margin="20dp"
+        android:layout_margin="50dp"
         android:onClick="onclickGameStart"
-        android:autoSizeTextType="uniform">
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline">
     </Button>
 </LinearLayout>
