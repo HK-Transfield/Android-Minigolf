@@ -25,4 +25,10 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
     }
+
+    // When play button is clicked, go to game screen
+    public void onclickGameStart(View view) {
+        Intent i = new Intent(this, GameActivity.class);
+        startActivity(i);
+    }
 }
