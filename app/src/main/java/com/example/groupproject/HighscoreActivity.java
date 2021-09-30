@@ -42,6 +42,9 @@ public class HighscoreActivity extends AppCompatActivity {
         // set adapter
         listViewName.setAdapter(arrayAdapterNames);
 
+        // remove horizontal dividers from listviews / no grid mode
+        listViewName.setDividerHeight(0);
+        listViewNum.setDividerHeight(0);
     }
 
     // When Play Again button is clicked, go to game screen
