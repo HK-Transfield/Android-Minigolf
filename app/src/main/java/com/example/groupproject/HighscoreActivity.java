@@ -45,6 +45,10 @@ public class HighscoreActivity extends AppCompatActivity {
         // remove horizontal dividers from listviews / no grid mode
         listViewName.setDividerHeight(0);
         listViewNum.setDividerHeight(0);
+
+        // disable visual feedback when clicking on the high score lists
+        listViewName.setEnabled(false);
+        listViewNum.setEnabled(false);
     }
 
     // When Play Again button is clicked, go to game screen
