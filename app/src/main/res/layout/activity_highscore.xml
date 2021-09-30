@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HighscoreActivity"
+    android:orientation="vertical"
+    android:background="@color/darkerGreen"
+    android:id="@+id/highscore_screen">
+
+    <!-- Highscore title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/high_scores_title"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:layout_margin="20dp"
+        android:autoSizeTextType="uniform">
+    </TextView>
+
+    <!-- High score things -->
+
+    <LinearLayout
+        android:id="@+id/highscore_ranks_text_area"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:layout_weight="7"
+        android:background="@color/darkerGreen"
+        android:orientation="horizontal">
+
+        <!-- High scores numbers -->
+        <ListView
+            android:id="@+id/highscore_list_numbers"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </ListView>
+
+        <!-- High scores names -->
+        <ListView
+            android:id="@+id/highscore_list_names"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            
+            >
+
+        </ListView>
+
+    </LinearLayout>
+
+    <!-- Play again button -->
+
+    <Button
+        android:id="@+id/button_play_again"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/play_again_button_text"
+        android:textColor="@color/white"
+        android:layout_margin="50dp"
+        android:onClick="onclickGameStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline">
+    </Button>
+</LinearLayout>
