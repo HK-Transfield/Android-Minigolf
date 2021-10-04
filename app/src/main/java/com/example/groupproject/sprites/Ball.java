@@ -14,23 +14,24 @@ public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final Paint paint = new Paint();
-    private final int TRAVEL_TIME = 15; // seconds (t)
+    private final int MAX_TIME = 50; // seconds (t)
     private final float MAX_VELOCITY = 80;
-    private final float[] xGridArr = new float[3]; // stores every point on the grid along the x-axis
-    private final float[] yGridArr = new float[3]; // stores every point on the grid along the y-axis
+    private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
+    private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
     /* CLASS MEMBER VARIABLES */
-    private int elapsedTime = 0; // how long the ball has travelled for
+    private int travelTime = 0; // how long the ball has travelled for
+    private int movesLeft = 3;
     private float x = 0; // change along x-axis
     private float y = 0; // change along y-axis
-    private float initialVelocityX = 0; // current ball velocity along x-axis
-    private float initialVelocityY = 0; // current ball velocity along y-axis
-    private float xTouched; // x-axis of where the screen was touched
-    private float yTouched; // y-axis of where the screen was touched
-    private float xCurr; // stationary position along x-axis
-    private float yCurr; // stationary position along y-axis
-    private boolean xCollision = false;
-    private boolean yCollision = false; // the ball has touched left or right edge
+    private float velocityX = 0; // current ball velocity along x-axis
+    private float velocityY = 0; // current ball velocity along y-axis
+    private float swipedX; // x-axis of where the screen was touched
+    private float swipedY; // y-axis of where the screen was touched
+    private float stationaryX; // stationary position along x-axis
+    private float stationaryY; // stationary position along y-axis
+    private boolean collidedX = false;
+    private boolean colliedY = false; // the ball has touched left or right edge
 
     /**
      * Constructor, instantiates a new Ball object
@@ -62,44 +63,27 @@ public class Ball extends Sprite {
         // calculate the starting position of the ball and save it
         x = (float)(width / 2);
         y = (float)(height / 2);
-        xCurr = x;
-        yCurr = y;
+        stationaryX = x;
+        stationaryY = y;
 
         // calculate and store every point in the grid along each axis
-        for(int i = 0; i < xGridArr.length; i++) xGridArr[i] = (i + 1) * gridX;
-        for(int i = 0; i < yGridArr.length; i++) yGridArr[i] = (i + 1) * gridY;
-    }
-
-    /**
-     * Resets the collision check along the X-axis
-     */
-    public void setXCollision(boolean collision) {
-        xCollision = collision;
-    }
-
-    /**
-     * Resets the collision check along the Y-axis
-     */
-    public void setYCollision(boolean collision) {
-        yCollision = collision;
+        for(int i = 0; i < gridXArr.length; i++) gridXArr[i] = (i + 1) * gridX;
+        for(int i = 0; i < gridYArr.length; i++) gridYArr[i] = (i + 1) * gridY;
     }
 
     /**
      * Set where the user has swiped the ball
      *
-     * @param xT Where the user moved their finger along the X-axis
-     * @param yT Where the user moved their finder along the Y-axis
+     * @param sX Where the user moved their finger along the X-axis
+     * @param sY Where the user moved their finder along the Y-axis
      */
-    public void setTouchedCoordinates(float xT, float yT) {
-        xTouched = xT;
-        yTouched = yT;
-    }
-
-    /**
-     * Reset the time for how long the ball has travelled for
-     */
-    public void setElapsedTime(int et) {
-        elapsedTime = et;
+    public void setGesture(float sX, float sY) {
+        movesLeft--;
+        travelTime = 0;
+        collidedX = false;
+        colliedY = false;
+        swipedX = sX;
+        swipedY = sY;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -122,6 +106,13 @@ public class Ball extends Sprite {
         return y;
     }
 
+    /**
+     * Gets the current number of moves that the ball has left to make
+     */
+    public int getMovesLeft() {
+        return movesLeft;
+    }
+
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
@@ -132,35 +123,36 @@ public class Ball extends Sprite {
      * Draws the ball on screen and move if the user interacts with the ball.
      */
     public void onDraw(Canvas canvas) {
+        if(movesLeft >= 0) { // check that the ball still has moves left it can make
+            if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
 
-        if(xTouched != 0.0f || yTouched != 0.0f) { // the user has interacted with the ball
+                // has the ball collided with any edges, if so rebound it
+                if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
+                if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
 
-            // has the ball collided with any edges, if so rebound it
-            if (detectCollision(x, xGridArr[2])) xCollision = !xCollision;
-            if (detectCollision(y, yGridArr[2])) yCollision = !yCollision;
+                // move the circle
+                x += velocityX * direction(swipedX, stationaryX, collidedX);
+                y += velocityY * direction(swipedY, stationaryY, colliedY);
 
-            // move the circle
-            x += animateCircle(xTouched, xCurr, xCollision, initialVelocityX);
-            y += animateCircle(yTouched, yCurr, yCollision, initialVelocityY);
+                if(travelTime <= MAX_TIME) { // check that ball should still be travelling
+                    velocityX += acceleration(velocityX);
+                    velocityY += acceleration(velocityY);
+                } else { // ball has travelled long enough, slow it down
+                    velocityX -= acceleration(velocityX);
+                    velocityY -= acceleration(velocityY);
 
-            if(elapsedTime <= TRAVEL_TIME) { // check that ball should still be travelling
-                initialVelocityX += acceleration(initialVelocityX);
-                initialVelocityY += acceleration(initialVelocityY);
-            } else { // ball has travelled long enough, slow it down
-                initialVelocityX -= acceleration(initialVelocityX);
-                initialVelocityY -= acceleration(initialVelocityY);
-
-                // make the ball stationary and save its current position
-                if(initialVelocityX <= 0) {
-                    initialVelocityX = 0;
-                    xCurr = x;
+                    // make the ball stationary and save its current position
+                    if(velocityX <= 0) {
+                        velocityX = 0;
+                        stationaryX = x;
+                    }
+                    if(velocityY <= 0) {
+                        velocityY = 0;
+                        stationaryY = y;
+                    }
                 }
-                if(initialVelocityY <= 0) {
-                    initialVelocityY = 0;
-                    yCurr = y;
-                }
+                travelTime++;
             }
-            elapsedTime++;
         }
         canvas.drawCircle(x, y, size, paint);
     }
@@ -174,22 +166,18 @@ public class Ball extends Sprite {
      * @param collided Inverts the direction if the ball has collided with any edge
      * @return The direction modifier
      */
-    private float animateCircle(float axisTouched, float axis, boolean collided, float speed) {
-        if (axisTouched == 0) {
-            return 0;
-        } else {
-            int direction = 0;
+    private float direction(float axisTouched, float axis, boolean collided) {
+        int direction = 0;
 
-            // determine where to move the ball based on where the the user swiped the screen in relation to its stationary position
-            if(axisTouched + size <= axis && axisTouched - size <= axis) direction = -1; // move UP or LEFT
-            if(axisTouched + size == axis && axisTouched - size == axis) direction = 0; // no movement in this direction
-            if(axisTouched + size >= axis && axisTouched - size >= axis) direction = 1; // move DOWN or RIGHT
+        // determine where to move the ball based on where the the user swiped the screen in relation to its stationary position
+        if(axisTouched + size <= axis && axisTouched - size <= axis) direction = -1; // move UP or LEFT
+        if(axisTouched + size == axis && axisTouched - size == axis) direction = 0; // no movement in this direction
+        if(axisTouched + size >= axis && axisTouched - size >= axis) direction = 1; // move DOWN or RIGHT
 
-            // invert the direction when the circle collides with an edge
-            if (collided) direction *= -1;
+        // invert the direction when the circle collides with an edge
+        if (collided) direction *= -1;
 
-            return (speed * direction);
-        }
+        return direction;
     }
 
     /**
@@ -200,7 +188,7 @@ public class Ball extends Sprite {
      * @return The change it speed the ball should make
      */
     private float acceleration(float initialVelocity) {
-        return (MAX_VELOCITY - initialVelocity) / TRAVEL_TIME;
+        return (MAX_VELOCITY - initialVelocity) / MAX_TIME;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -216,7 +204,7 @@ public class Ball extends Sprite {
      * @param touchedAxis the location of the gesture
      * @return True if the ball was swiped
      */
-    public boolean interactedWith(float axis, float touchedAxis) {
+    public boolean swipedBall(float axis, float touchedAxis) {
         return touchedAxis <= axis + size && touchedAxis >= axis - size;
     }
 
@@ -227,7 +215,7 @@ public class Ball extends Sprite {
      * @param screenEdge Specifically for the bottom or right edge
      * @return True if the ball has collided with any edges
      */
-    private boolean detectCollision(float axis, float screenEdge) {
+    private boolean hasCollided(float axis, float screenEdge) {
         return axis - size < 0 || axis + size > screenEdge;
     }
 
