@@ -2,6 +2,7 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.example.groupproject.R;
 
@@ -38,46 +39,44 @@ public class Ball extends Sprite {
         paint.setColor(color);
     }
 
+    public void setStartPosition(int width, int height) {
+        float gridX = (float)(width / 3);
+        float gridY = (float)(height / 3);
+
+        x = (float)(width / 2);
+        y = (float)(height / 2);
+
+        // calculate and store every point in the grid along each axis
+        for(int i = 0; i < xGridArr.length; i++) xGridArr[i] = (i + 1) * gridX;
+        for(int i = 0; i < yGridArr.length; i++) yGridArr[i] = (i + 1) * gridY;
+    }
+
     // TODO: calculate screen size within the class and define boundaries
     public void onDraw(Canvas canvas) {
-        if(!inStartPosition) {
-            float width = canvas.getWidth();
-            float height = canvas.getHeight();
+        if(xTouched != 0.0f || yTouched != 0.0f) {
+            // has the ball collided with any edges
+            if (detectCollision(x, xGridArr[2])) xCollision = !xCollision;
+            if (detectCollision(y, yGridArr[2])) yCollision = !yCollision;
 
-            x = width / (float)2;
-            y = height / (float)3;
+            // move the circle
+            x += animateCircle(xTouched, x, xCollision, initialVelocityX);
+            y += animateCircle(yTouched, y, yCollision, initialVelocityY);
 
-            // calculate and store every point in the grid along each axis
-            for(int i = 0; i < xGridArr.length; i++) xGridArr[i] = (i + 1) * (width / (float)3);
-            for(int i = 0; i < yGridArr.length; i++) yGridArr[i] = (i + 1) * (height / (float)3);
+            // calculate what the velocity should be
+            float finalVelocityX = 100;
+            float finalVelocityY = 100;
+            if(elapsedTime <= TRAVEL_TIME) {
+                initialVelocityX += acceleration(initialVelocityX, finalVelocityX);
+                initialVelocityY += acceleration(initialVelocityY, finalVelocityY);
+            } else {
+                initialVelocityX -= acceleration(initialVelocityX, finalVelocityX);
+                initialVelocityY -= acceleration(initialVelocityY, finalVelocityY);
 
-            inStartPosition = true;
-        } else {
-            if(yTouched != 0.0f || xTouched != 0.0f) {
-                // has the ball collided with any edges
-                if (detectCollision(x, xGridArr[2])) xCollision = !xCollision;
-                if (detectCollision(y, yGridArr[2])) yCollision = !yCollision;
+                if(initialVelocityX <= 0) initialVelocityX = 0;
+                if(initialVelocityY <= 0) initialVelocityY = 0;
 
-                // move the circle
-                x += animateCircle(xTouched, xGridArr, xCollision, initialVelocityX);
-                y += animateCircle(yTouched, yGridArr, yCollision, initialVelocityY);
-
-                // calculate what the velocity should be
-                float finalVelocityX = 100;
-                float finalVelocityY = 100;
-                if(elapsedTime <= TRAVEL_TIME) {
-                    initialVelocityX += acceleration(initialVelocityX, finalVelocityX);
-                    initialVelocityY += acceleration(initialVelocityY, finalVelocityY);
-                } else {
-                    initialVelocityX -= acceleration(initialVelocityX, finalVelocityX);
-                    initialVelocityY -= acceleration(initialVelocityY, finalVelocityY);
-
-                    if(initialVelocityX <= 0) initialVelocityX = 0;
-                    if(initialVelocityY <= 0) initialVelocityY = 0;
-
-                }
-                elapsedTime++;
             }
+            elapsedTime++;
         }
         canvas.drawCircle(x, y, size, paint);
     }
@@ -111,18 +110,22 @@ public class Ball extends Sprite {
         elapsedTime = et;
     }
 
-    private float animateCircle(float axisTouched, float[] gridArr, boolean collided, float speed) {
-        int direction = 0;
+    private float animateCircle(float axisTouched, float axis, boolean collided, float speed) {
+        if (axisTouched == 0) {
+            return 0;
+        } else {
+            int direction = 0;
 
-        // determine where to move the circle based on where the screen was touched
-        if(axisTouched <= gridArr[0]) direction = -1; // move UP or LEFT
-        if(axisTouched >= gridArr[0] && axisTouched <= gridArr[1]) direction = 0; // no movement in this direction
-        if(axisTouched >= gridArr[1] && axisTouched <= gridArr[2]) direction = 1; // move DOWN or RIGHT
+            // determine where to move the circle based on where the screen was touched
+            if(axisTouched <= axis) direction = -1; // move UP or LEFT
+            if(axisTouched == axis) direction = 0; // no movement in this direction
+            if(axisTouched >= axis) direction = 1; // move DOWN or RIGHT
 
-        // invert the direction when the circle collides with an edge
-        if (collided) direction *= -1;
+            // invert the direction when the circle collides with an edge
+            if (collided) direction *= -1;
 
-        return (speed * direction);
+            return (speed * direction);
+        }
     }
 
     private float acceleration(float initialVelocity, float finalVelocity) {
