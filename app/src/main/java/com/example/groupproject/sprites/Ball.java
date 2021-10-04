@@ -14,7 +14,7 @@ public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final Paint paint = new Paint();
-    private final int MAX_TIME = 50; // seconds (t)
+    private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
@@ -61,10 +61,8 @@ public class Ball extends Sprite {
         float gridY = (float)(height / 3);
 
         // calculate the starting position of the ball and save it
-        x = (float)(width / 2);
-        y = (float)(height / 2);
-        stationaryX = x;
-        stationaryY = y;
+        x = stationaryX = (float)(width / 2);
+        y = stationaryY = (float)(height / 2);
 
         // calculate and store every point in the grid along each axis
         for(int i = 0; i < gridXArr.length; i++) gridXArr[i] = (i + 1) * gridX;
@@ -72,16 +70,23 @@ public class Ball extends Sprite {
     }
 
     /**
-     * Set where the user has swiped the ball
+     * Called whenever the user interacts and swipes the ball.
      *
      * @param sX Where the user moved their finger along the X-axis
      * @param sY Where the user moved their finder along the Y-axis
      */
     public void setGesture(float sX, float sY) {
+
+        // player used up a move
         movesLeft--;
+
+        // reset travel time
         travelTime = 0;
-        collidedX = false;
-        colliedY = false;
+
+        // reset collision checks
+        collidedX = colliedY = false;
+
+        // set where the user swiped
         swipedX = sX;
         swipedY = sY;
     }
@@ -134,22 +139,18 @@ public class Ball extends Sprite {
                 x += velocityX * direction(swipedX, stationaryX, collidedX);
                 y += velocityY * direction(swipedY, stationaryY, colliedY);
 
-                if(travelTime <= MAX_TIME) { // check that ball should still be travelling
-                    velocityX += acceleration(velocityX);
-                    velocityY += acceleration(velocityY);
-                } else { // ball has travelled long enough, slow it down
-                    velocityX -= acceleration(velocityX);
-                    velocityY -= acceleration(velocityY);
+                // change the speed of the ball
+                velocityX += acceleration(velocityX);
+                velocityY += acceleration(velocityY);
 
-                    // make the ball stationary and save its current position
-                    if(velocityX <= 0) {
-                        velocityX = 0;
-                        stationaryX = x;
-                    }
-                    if(velocityY <= 0) {
-                        velocityY = 0;
-                        stationaryY = y;
-                    }
+                // make the ball stationary and save its current position
+                if(velocityX <= 0) {
+                    velocityX = 0;
+                    stationaryX = x;
+                }
+                if(velocityY <= 0) {
+                    velocityY = 0;
+                    stationaryY = y;
                 }
                 travelTime++;
             }
@@ -182,13 +183,20 @@ public class Ball extends Sprite {
 
     /**
      * Computes the basic formula for acceleration -> a = (Vf - Vi) / t
-     * This is used to have the ball speed up and slow down
+     * This is used to compute the change in speed the ball will make
+     * over a set amount of time while travelling.
      *
      * @param initialVelocity The ball's current speed it is moving at
-     * @return The change it speed the ball should make
+     * @return +ve is accelerating, -ve if decelerating
      */
     private float acceleration(float initialVelocity) {
-        return (MAX_VELOCITY - initialVelocity) / MAX_TIME;
+
+        // formula for acceleration
+        float acceleration = (MAX_VELOCITY - initialVelocity) / MAX_TIME;
+
+        // check how long its travelled
+        if(travelTime <= MAX_TIME) return acceleration;
+        else return -acceleration;
     }
 
     /*--------------------------------------------------------------------------------------------*/
