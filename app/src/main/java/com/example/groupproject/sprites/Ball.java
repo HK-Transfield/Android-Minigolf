@@ -21,12 +21,12 @@ public class Ball extends Sprite {
     private float yTouched; // y-axis of where the screen was touched
     boolean xCollision, yCollision = false; // the ball has touched left or right edge
     private float x, y = 0; // current ball location along x-axis
-    private final int TRAVEL_TIME = 30; // seconds (t)
+    private final int TRAVEL_TIME = 15; // seconds (t)
     private int elapsedTime = 0;
     private float initialVelocityX = 0;
     private float initialVelocityY = 0;
-    private int movesLeft;
-    private boolean inStartPosition = false;
+    private float xCurr = 0;
+    private float yCurr = 0;
 
     /**
      * Constructor, instantiates a new Ball object
@@ -45,13 +45,14 @@ public class Ball extends Sprite {
 
         x = (float)(width / 2);
         y = (float)(height / 2);
+        xCurr = x;
+        yCurr = y;
 
         // calculate and store every point in the grid along each axis
         for(int i = 0; i < xGridArr.length; i++) xGridArr[i] = (i + 1) * gridX;
         for(int i = 0; i < yGridArr.length; i++) yGridArr[i] = (i + 1) * gridY;
     }
 
-    // TODO: calculate screen size within the class and define boundaries
     public void onDraw(Canvas canvas) {
         if(xTouched != 0.0f || yTouched != 0.0f) {
             // has the ball collided with any edges
@@ -59,12 +60,12 @@ public class Ball extends Sprite {
             if (detectCollision(y, yGridArr[2])) yCollision = !yCollision;
 
             // move the circle
-            x += animateCircle(xTouched, x, xCollision, initialVelocityX);
-            y += animateCircle(yTouched, y, yCollision, initialVelocityY);
+            x += animateCircle(xTouched, xCurr, xCollision, initialVelocityX);
+            y += animateCircle(yTouched, yCurr, yCollision, initialVelocityY);
 
             // calculate what the velocity should be
-            float finalVelocityX = 100;
-            float finalVelocityY = 100;
+            float finalVelocityX = 80;
+            float finalVelocityY = 80;
             if(elapsedTime <= TRAVEL_TIME) {
                 initialVelocityX += acceleration(initialVelocityX, finalVelocityX);
                 initialVelocityY += acceleration(initialVelocityY, finalVelocityY);
@@ -72,8 +73,14 @@ public class Ball extends Sprite {
                 initialVelocityX -= acceleration(initialVelocityX, finalVelocityX);
                 initialVelocityY -= acceleration(initialVelocityY, finalVelocityY);
 
-                if(initialVelocityX <= 0) initialVelocityX = 0;
-                if(initialVelocityY <= 0) initialVelocityY = 0;
+                if(initialVelocityX <= 0) {
+                    initialVelocityX = 0;
+                    xCurr = x;
+                }
+                if(initialVelocityY <= 0) {
+                    initialVelocityY = 0;
+                    yCurr = y;
+                }
 
             }
             elapsedTime++;
@@ -117,9 +124,9 @@ public class Ball extends Sprite {
             int direction = 0;
 
             // determine where to move the circle based on where the screen was touched
-            if(axisTouched <= axis) direction = -1; // move UP or LEFT
-            if(axisTouched == axis) direction = 0; // no movement in this direction
-            if(axisTouched >= axis) direction = 1; // move DOWN or RIGHT
+            if(axisTouched + size <= axis && axisTouched - size <= axis) direction = -1; // move UP or LEFT
+            if(axisTouched + size == axis && axisTouched - size == axis) direction = 0; // no movement in this direction
+            if(axisTouched + size >= axis && axisTouched - size >= axis) direction = 1; // move DOWN or RIGHT
 
             // invert the direction when the circle collides with an edge
             if (collided) direction *= -1;
@@ -140,9 +147,5 @@ public class Ball extends Sprite {
 
     public boolean collisionCheck() {
         return false;
-    }
-
-    public int getMovesLeft() {
-        return movesLeft;
     }
 }
