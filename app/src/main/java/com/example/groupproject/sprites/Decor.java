@@ -52,13 +52,19 @@ abstract public class Decor extends Sprite {
     /**
      * Generates a random x position.
      */
-    int generateX(){
+    int generateX(int width){
         return 0;
     }
     /**
      * Generates a random y position.
      */
-    int generateY(){
+    int generateY(int height){
         return 0;
     }
+    /**
+     * Sets position after layout has loaded.
+     * @param width the width of the current device
+     * @param height the height of the current device
+     */
+    public abstract void setPosition(int width, int height);
 }
