@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,8 +16,6 @@ import android.widget.TextView;
 
 import com.example.groupproject.sprites.Ball;
 import com.example.groupproject.sprites.Target;
-
-import org.w3c.dom.Text;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -32,13 +31,23 @@ public class GameActivity extends AppCompatActivity {
     public class GraphicsView extends View {
         private final GestureDetector gd;
         private final Ball golfBall;
-        private final Target target;
-        private TextView textView;
+        private Target target;
+        private TextView movesTextView;
+        private TextView scoreTextView;
+        private int score = 0;
 
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             golfBall.setStartPosition(w, h);
+        }
+
+        public void setMovesTextView(TextView tv) {
+            movesTextView = tv;
+        }
+
+        public void setScoreTextView(TextView tv) {
+            scoreTextView = tv;
         }
 
         /**
@@ -52,10 +61,6 @@ public class GameActivity extends AppCompatActivity {
             gd = new GestureDetector(context, new MyGestureListener());
         }
 
-        public void setTextView(TextView tv) {
-            textView = tv;
-        }
-
 
         /**
          * Draws a ball on screen. The ball will remain in the center of the screen
@@ -65,9 +70,20 @@ public class GameActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            textView.setText(String.valueOf(golfBall.getMovesLeft()));
-            golfBall.onDraw(canvas);
+            movesTextView.setText(String.valueOf(golfBall.getMovesLeft()));
+            scoreTextView.setText(String.valueOf(score));
+
             target.onDraw(canvas);
+            golfBall.onDraw(canvas);
+
+            if (target.hasBallHit(golfBall.getX(), golfBall.getY())) {
+                Log.i("SCORE", "Hit");
+                score++;
+                golfBall.setStartPosition(getWidth(), getHeight());
+                // golfBall.setGesture(0, 0);
+                target = new Target();
+            }
+
             invalidate();
         }
 
@@ -95,14 +111,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 if(golfBall.swipedBall(golfBall.getX(), e1.getX()) && golfBall.swipedBall(golfBall.getY(), e1.getY())) {
-                    if (golfBall.getMovesLeft() != 0)
-                        golfBall.setGesture(e2.getX(), e2.getY());
+                    golfBall.setGesture(e2.getX(), e2.getY());
+
+                    if (golfBall.getMovesLeft() == 0) {
+                        Intent gameOver = new Intent(getContext(), GameOverActivity.class);
+                        startActivity(gameOver);
+                    }
                 }
 
-                if (golfBall.getMovesLeft() == 0) {
-                    Intent gameOver = new Intent(getContext(), GameOverActivity.class);
-                    startActivity(gameOver);
-                }
                 return false;
             }
         }
@@ -116,7 +132,8 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        TextView textView = findViewById(R.id.gamescreen_moves_left_value);
+        TextView movesTextView = findViewById(R.id.gamescreen_moves_left_value);
+        TextView scoreTextView = findViewById(R.id.gamescreen_score_value);
 
         // set full screen sticky immersive
         ActionBar actionBar = getSupportActionBar();
@@ -128,9 +145,11 @@ public class GameActivity extends AppCompatActivity {
 
         // create a new instance of GraphicsView, which will be added to the ConstraintLayout
         GraphicsView graphicsView = new GraphicsView(this);
-        graphicsView.setTextView(textView);
         ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraint_layout_graphics);
         constraintLayout.addView(graphicsView);
+
+        graphicsView.setMovesTextView(movesTextView);
+        graphicsView.setScoreTextView(scoreTextView);
 
     }
 

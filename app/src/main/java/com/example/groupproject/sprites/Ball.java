@@ -16,6 +16,7 @@ public class Ball extends Sprite {
     private final Paint paint = new Paint();
     private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
+    private final int MAX_MOVES = 3;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
@@ -56,9 +57,20 @@ public class Ball extends Sprite {
      */
     public void setStartPosition(int width, int height) {
 
+        // reset the number of moves
+        movesLeft = MAX_MOVES;
+
         // calculate the size of 1 section of the grid
         float gridX = (float)(width / 3);
         float gridY = (float)(height / 3);
+
+        swipedX = 0;
+        swipedY = 0;
+
+        travelTime = 0;
+
+        velocityY = 0;
+        velocityX = 0;
 
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
@@ -76,9 +88,6 @@ public class Ball extends Sprite {
      * @param sY Where the user moved their finder along the Y-axis
      */
     public void setGesture(float sX, float sY) {
-
-        // player used up a move
-        movesLeft--;
 
         // reset travel time
         travelTime = 0;
@@ -152,6 +161,9 @@ public class Ball extends Sprite {
                     velocityY = 0;
                     stationaryY = y;
                 }
+                if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
+                    // player used up a move
+                    movesLeft--;
                 travelTime++;
             }
         }
