@@ -137,35 +137,35 @@ public class Ball extends Sprite {
      * Draws the ball on screen and move if the user interacts with the ball.
      */
     public void onDraw(Canvas canvas) {
-        if(movesLeft >= 0) { // check that the ball still has moves left it can make
-            if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
+        if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
 
-                // has the ball collided with any edges, if so rebound it
-                if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
-                if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
+            // has the ball collided with any edges, if so rebound it
+            if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
+            if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
 
-                // move the circle
-                x += velocityX * direction(swipedX, stationaryX, collidedX);
-                y += velocityY * direction(swipedY, stationaryY, colliedY);
+            // move the circle
+            x += velocityX * direction(swipedX, stationaryX, collidedX);
+            y += velocityY * direction(swipedY, stationaryY, colliedY);
 
-                // change the speed of the ball
-                velocityX += acceleration(velocityX);
-                velocityY += acceleration(velocityY);
+            // change the speed of the ball
+            velocityX += acceleration(velocityX);
+            velocityY += acceleration(velocityY);
 
-                // make the ball stationary and save its current position
-                if(velocityX <= 0) {
-                    velocityX = 0;
-                    stationaryX = x;
-                }
-                if(velocityY <= 0) {
-                    velocityY = 0;
-                    stationaryY = y;
-                }
-                if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
-                    // player used up a move
-                    movesLeft--;
-                travelTime++;
+            // make the ball stationary and save its current position
+            if(velocityX <= 0) {
+                velocityX = 0;
+                stationaryX = x;
+                swipedX = 0;
             }
+            if(velocityY <= 0) {
+                velocityY = 0;
+                stationaryY = y;
+                swipedY = 0;
+            }
+            if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
+                // player used up a move
+                movesLeft--;
+            travelTime++;
         }
         canvas.drawCircle(x, y, size, paint);
     }
