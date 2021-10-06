@@ -2,12 +2,15 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * This class is used to display a Target in the game for the user to
  * aim the Ball at. Collision with the target is defined by ___% of the
  * Ball overlapping with the Target. When a collision with the Target
  * is achieved, the round ends.
+ *
+ * @author Wednesday Wilson
  */
 public class Target extends Decor {
 
@@ -34,6 +37,22 @@ public class Target extends Decor {
     public void onDraw(Canvas canvas) {
         paint.setColor(targetColor); // set the colour
         canvas.drawCircle(targetX, targetY, targetSize, paint); // draw the target
+    }
+
+    public void resetPosition() {
+        targetX = generateX();
+        targetY = generateY();
+    }
+
+
+    /*
+    ballX <= targetX && ballX >= targetX - targetSize || ballX >= targetX && ballX <= targetX + targetSize ||
+    ballX <= targetY && ballX >= targetY - targetSize || ballY >= targetX && ballY <= targetY + targetSize;
+
+    */
+    public boolean hasBallHit(float ballX, float ballY) {
+        return  ballX >= targetX - targetSize && ballX <= targetX + targetSize &&
+                ballY >= targetY - targetSize && ballY <= targetY + targetSize;
     }
 
     /**
