@@ -36,29 +36,28 @@ abstract public class Decor extends Sprite {
         return false;
     }
     /**
-     * Decor is randomly positioned at the start of a round, so
-     * this method checks for overlapping before drawing the object
-     * to the game.
-     */
-    void checkDrawOverlap(){
-
-    }
-    /**
      * Handles the collision event with the ball.
      */
     void onCollision(){
-
     }
     /**
      * Generates a random x position.
+     * @param width The width of the device
      */
-    int generateX(){
+    int generateX(int width){
         return 0;
     }
     /**
      * Generates a random y position.
+     * @param height The height of the device
      */
-    int generateY(){
+    int generateY(int height){
         return 0;
     }
+    /**
+     * Sets position after layout has loaded.
+     * @param width the width of the current device
+     * @param height the height of the current device
+     */
+    public abstract void setPosition(int width, int height);
 }
