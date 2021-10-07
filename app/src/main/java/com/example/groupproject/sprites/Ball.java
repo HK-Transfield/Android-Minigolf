@@ -74,7 +74,9 @@ public class Ball extends Sprite {
 
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
-        y = stationaryY = (float)(height / 2);
+        stationaryY = (float)(height / 2);
+        y = (float)(height * 0.9);
+
 
         // calculate and store every point in the grid along each axis
         for(int i = 0; i < gridXArr.length; i++) gridXArr[i] = (i + 1) * gridX;
