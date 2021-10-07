@@ -22,11 +22,6 @@ abstract public class Sprite {
     abstract public void drawSprite(Canvas canvas);
 
     /**
-     * Checks if the sprite is touching any other sprite
-     */
-    abstract boolean collisionCheck();
-
-    /**
      * Sets position after layout has loaded.
      * @param width the width of the current device
      * @param height the height of the current device

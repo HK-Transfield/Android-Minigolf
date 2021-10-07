@@ -13,15 +13,9 @@ public class Sand extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int sandSize = 120; // needs to scale to screen size?
-    private final double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
-    private final double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
 
     /* CLASS MEMBER VARIABLES */
     private int sandColor = Color.YELLOW; // the colour
-    private float sandStartX = -200; // initial position (off screen)
-    private float sandStartY = -200; // initial position (off screen)
-    private float sandTrueX; // relative x position after screen load
-    private float sandTrueY; // relative y position after screen load
     private float deviceWidth; // the width of the device
     private float deviceHeight; // the height of the device
     private Water waterCurrent; // the current instance of water
@@ -35,8 +29,8 @@ public class Sand extends Decor {
     public Sand() {
         super();
         this.size = sandSize;
-        this.startX = sandStartX; // randomly generate this
-        this.startY = sandStartY; // randomly generate this
+        this.startX = this.initX; // randomly generate this
+        this.startY = this.initY; // randomly generate this
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -57,16 +51,16 @@ public class Sand extends Decor {
         deviceWidth = width; // save the device width
         deviceHeight = height; // save the device height
         // generate the initial position
-        sandTrueX = sandStartX = generateX(width); // generate random x
-        sandTrueY = sandStartY = generateY(height); // generate random y
+        this.trueX = this.initX = generateX(width); // generate random x
+        this.trueY = this.initY = generateY(height); // generate random y
         // check for overlapping with target
-        Boolean overlapCheckTarget = checkDrawOverlapTarget(targetCurrent);
+        boolean overlapCheckTarget = checkDrawOverlapTarget(targetCurrent);
         if (overlapCheckTarget) {
             sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
             setPosition(width, height);
         }
         // check for overlapping with water
-        Boolean overlapCheckWater = checkDrawOverlapWater(waterCurrent);
+        boolean overlapCheckWater = checkDrawOverlapWater(waterCurrent);
         // if overlapping, recalculate position
         if (overlapCheckWater) {
             sandColor = Color.DKGRAY; // Show that collision occurred *TEST STUFF*
@@ -113,7 +107,11 @@ public class Sand extends Decor {
      */
     @Override
     protected int generateY(int height) {
+        // uppermost % of screen to spawn in (20%)
+        double minHeight = 0.2;
         int min = (int) (height * minHeight) + sandSize; // highest point it should be drawn
+        // lowest % of screen to spawn in (70%)
+        double maxHeight = 0.7;
         int max = (int) (height * maxHeight) + sandSize; // lowest point it should be drawn
         return random.nextInt(max-min) + min;
     }
@@ -125,8 +123,8 @@ public class Sand extends Decor {
      * @return True if a collision is detected.
      */
     public boolean checkDrawOverlapWater(Water water) {
-        float xDifference = water.getWaterTrueX() - sandTrueX; // Get the X difference
-        float yDifference = water.getWaterTrueY() - sandTrueY; // Get the Y difference
+        float xDifference = water.getWaterTrueX() - this.trueX; // Get the X difference
+        float yDifference = water.getWaterTrueY() - this.trueY; // Get the Y difference
         // Calculate the difference squared
         float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
         // Collision check
@@ -139,8 +137,8 @@ public class Sand extends Decor {
      * @return True if a collision is detected.
      */
     public boolean checkDrawOverlapTarget(Target target) {
-        float xDifference = target.getTargetTrueX() - sandTrueX; // Get the X difference
-        float yDifference = target.getTargetTrueY() - sandTrueY; // Get the Y difference
+        float xDifference = target.getTargetTrueX() - this.trueX; // Get the X difference
+        float yDifference = target.getTargetTrueY() - this.trueY; // Get the Y difference
         // Calculate the difference squared
         float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
         // Collision check
@@ -156,15 +154,9 @@ public class Sand extends Decor {
     @Override
     public void drawSprite(Canvas canvas) {
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(sandStartX, sandStartY, sandSize, paint); // draw the target
+        canvas.drawCircle(this.startX, this.startY, sandSize, paint); // draw the target
     }
 
-    /**
-     * TODO
-     */
-    @Override
-    void onCollision() {
-    }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 }

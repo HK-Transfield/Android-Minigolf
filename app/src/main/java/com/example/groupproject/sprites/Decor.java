@@ -14,6 +14,11 @@ abstract public class Decor extends Sprite {
     Paint paint = new Paint(); // paint to share
     Random random = new Random(); // random number generator to share
 
+    protected float initX = -200; // set initial x-axis offscreen
+    protected float initY = -200; // set initial y-axis offscreen
+    protected float trueX;
+    protected float trueY;
+
     /**
      * Constructor
      */
@@ -24,19 +29,19 @@ abstract public class Decor extends Sprite {
     /**
      * Checks if the Ball has collided with a Decor.
      */
-    @Override
-    boolean collisionCheck() {
-        return false;
+    public boolean collisionCheck(float bX, float bY) {
+        return  bX >= trueX - size && bX <= trueX + size &&
+                bY >= trueY - size && bY <= trueY + size;
     }
-    /**
-     * Handles the collision event with the ball.
-     */
-    abstract void onCollision();
+
+
+
     /**
      * Generates a random x position.
      * @param width The width of the device
      */
     protected abstract int generateX(int width);
+
     /**
      * Generates a random y position.
      * @param height The height of the device

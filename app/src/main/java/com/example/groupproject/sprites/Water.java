@@ -145,12 +145,6 @@ public class Water extends Decor {
         paint.setColor(waterColor); // set the colour
         canvas.drawCircle(waterStartX, waterStartY, waterSize, paint); // draw the target
     }
-    /**
-     * TODO
-     */
-    @Override
-    void onCollision() {
-    }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 }
