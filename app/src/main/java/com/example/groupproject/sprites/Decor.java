@@ -22,12 +22,6 @@ abstract public class Decor extends Sprite {
     }
 
     /**
-     * Draws the decor to the screen.
-     */
-    @Override
-    abstract public void onDraw(Canvas canvas);
-
-    /**
      * Checks if the Ball has collided with a Decor.
      */
     @Override
@@ -42,15 +36,11 @@ abstract public class Decor extends Sprite {
      * Generates a random x position.
      * @param width The width of the device
      */
-    int generateX(int width){
-        return 0;
-    }
+    protected abstract int generateX(int width);
     /**
      * Generates a random y position.
      * @param height The height of the device
      */
-    int generateY(int height){
-        return 0;
-    }
+    protected abstract int generateY(int height);
 
 }

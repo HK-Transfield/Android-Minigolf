@@ -101,7 +101,7 @@ public class Sand extends Decor {
      * @param width how wide the playable game screen is.
      */
     @Override
-    int generateX(int width) {
+    protected int generateX(int width) {
         int min = sandSize; // most left it should be
         int max = width - sandSize; // most right it should be
         return random.nextInt(max-min) + min;
@@ -112,7 +112,7 @@ public class Sand extends Decor {
      * @param height how long the playable game screen is.
      */
     @Override
-    int generateY(int height) {
+    protected int generateY(int height) {
         int min = (int) (height * minHeight) + sandSize; // highest point it should be drawn
         int max = (int) (height * maxHeight) + sandSize; // lowest point it should be drawn
         return random.nextInt(max-min) + min;
@@ -154,7 +154,7 @@ public class Sand extends Decor {
      * @param canvas the object to draw the Sand object on.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
         paint.setColor(sandColor); // set the colour
         canvas.drawCircle(sandStartX, sandStartY, sandSize, paint); // draw the target
     }
@@ -164,8 +164,6 @@ public class Sand extends Decor {
      */
     @Override
     void onCollision() {
-        super.onCollision();
-        // TODO
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

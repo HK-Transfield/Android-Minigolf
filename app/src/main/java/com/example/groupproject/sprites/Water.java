@@ -101,7 +101,7 @@ public class Water extends Decor {
      * @param width how wide the playable game screen is.
      */
     @Override
-    int generateX(int width) {
+    protected int generateX(int width) {
         int min = waterSize; // most left it should be
         int max = width - waterSize; // most right it should be
         return random.nextInt(max-min) + min;
@@ -113,7 +113,7 @@ public class Water extends Decor {
      * @param height how long the playable game screen is.
      */
     @Override
-    int generateY(int height) {
+    protected int generateY(int height) {
         int min = (int) (height * minHeight) + waterSize; // highest point it should be drawn
         int max = (int) (height * maxHeight) + waterSize; // lowest point it should be drawn
         return random.nextInt(max-min) + min;
@@ -141,7 +141,7 @@ public class Water extends Decor {
      * @param canvas the object to draw the Water object on.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
         paint.setColor(waterColor); // set the colour
         canvas.drawCircle(waterStartX, waterStartY, waterSize, paint); // draw the target
     }
@@ -150,8 +150,6 @@ public class Water extends Decor {
      */
     @Override
     void onCollision() {
-        super.onCollision();
-        // TODO
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

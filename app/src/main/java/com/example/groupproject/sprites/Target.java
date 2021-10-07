@@ -57,11 +57,6 @@ public class Target extends Decor {
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
-    public void resetPosition() {
-        targetX = generateX();
-        targetY = generateY();
-    }
-
 
     /*
     ballX <= targetX && ballX >= targetX - targetSize || ballX >= targetX && ballX <= targetX + targetSize ||
@@ -69,8 +64,8 @@ public class Target extends Decor {
 
     */
     public boolean hasBallHit(float ballX, float ballY) {
-        return  ballX >= targetX - targetSize && ballX <= targetX + targetSize &&
-                ballY >= targetY - targetSize && ballY <= targetY + targetSize;
+        return  ballX >= targetTrueX - targetSize && ballX <= targetTrueX + targetSize &&
+                ballY >= targetTrueY - targetSize && ballY <= targetTrueY + targetSize;
     }
 
     /**
@@ -98,7 +93,7 @@ public class Target extends Decor {
      * @param width how wide the playable game screen is.
      */
     @Override
-    int generateX(int width) {
+    protected int generateX(int width) {
         int min = targetSize; // most left it should be
         int max = width - targetSize; // most right it should be
         return random.nextInt(max-min) + min;
@@ -111,7 +106,7 @@ public class Target extends Decor {
      * @param height how long the playable game screen is.
      */
     @Override
-    int generateY(int height) {
+    protected int generateY(int height) {
         int min = targetSize; // highest point it should be drawn
         int max = (int) (height * maxHeight); // lowest point it should be drawn
         return random.nextInt(max-min) + min;
@@ -124,7 +119,7 @@ public class Target extends Decor {
      * @param canvas the object to draw the Target object on.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
         paint.setColor(targetColor); // set the colour
         canvas.drawCircle(targetStartX, targetStartY, targetSize, paint); // draw the target
     }
@@ -134,8 +129,6 @@ public class Target extends Decor {
      */
     @Override
     void onCollision() {
-        super.onCollision();
-        // TODO
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
