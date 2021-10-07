@@ -25,9 +25,8 @@ abstract public class Decor extends Sprite {
      * Draws the decor to the screen.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    abstract public void onDraw(Canvas canvas);
 
-    }
     /**
      * Checks if the Ball has collided with a Decor.
      */
@@ -38,8 +37,7 @@ abstract public class Decor extends Sprite {
     /**
      * Handles the collision event with the ball.
      */
-    void onCollision(){
-    }
+    abstract void onCollision();
     /**
      * Generates a random x position.
      * @param width The width of the device
@@ -54,10 +52,5 @@ abstract public class Decor extends Sprite {
     int generateY(int height){
         return 0;
     }
-    /**
-     * Sets position after layout has loaded.
-     * @param width the width of the current device
-     * @param height the height of the current device
-     */
-    public abstract void setPosition(int width, int height);
+
 }

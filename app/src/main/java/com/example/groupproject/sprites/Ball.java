@@ -55,7 +55,8 @@ public class Ball extends Sprite {
      * @param width how wide the playable game screen is.
      * @param height how long the playable game screen is.
      */
-    public void setStartPosition(int width, int height) {
+    @Override
+    public void setPosition(int width, int height) {
 
         // reset the number of moves
         movesLeft = MAX_MOVES;

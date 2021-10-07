@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -31,7 +32,7 @@ public class GameActivity extends AppCompatActivity {
     public class GraphicsView extends View {
         private final GestureDetector gd;
         private final Ball golfBall;
-        private Target target;
+        private final Target target;
         private TextView movesTextView;
         private TextView scoreTextView;
         private int score = 0;
@@ -39,7 +40,8 @@ public class GameActivity extends AppCompatActivity {
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
-            golfBall.setStartPosition(w, h);
+            golfBall.setPosition(w, h);
+            target.setPosition(w, h);
         }
 
         public void setMovesTextView(TextView tv) {
@@ -67,23 +69,29 @@ public class GameActivity extends AppCompatActivity {
          * until the screen is touched anywhere, which will then cause the ball to
          * move around the screen and bounce off the edges.
          */
+        @SuppressLint("DrawAllocation")
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             movesTextView.setText(String.valueOf(golfBall.getMovesLeft()));
             scoreTextView.setText(String.valueOf(score));
 
+            if (golfBall.getMovesLeft() == 0) {
+                Intent gameOver = new Intent(getContext(), GameOverActivity.class);
+                startActivity(gameOver);
+            }
+
             target.onDraw(canvas);
             golfBall.onDraw(canvas);
 
             if (target.hasBallHit(golfBall.getX(), golfBall.getY())) {
-                Log.i("SCORE", "Hit");
-                score++;
-                golfBall.setStartPosition(getWidth(), getHeight());
-                // golfBall.setGesture(0, 0);
-                target = new Target();
+                if(score == 0)
+                    score++;
+                else
+                    score += score * golfBall.getMovesLeft();
+                golfBall.setPosition(getWidth(), getHeight());
+                target.setPosition(getWidth(), getHeight());
             }
-
             invalidate();
         }
 
@@ -112,13 +120,7 @@ public class GameActivity extends AppCompatActivity {
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 if(golfBall.swipedBall(golfBall.getX(), e1.getX()) && golfBall.swipedBall(golfBall.getY(), e1.getY())) {
                     golfBall.setGesture(e2.getX(), e2.getY());
-
-                    if (golfBall.getMovesLeft() == 0) {
-                        Intent gameOver = new Intent(getContext(), GameOverActivity.class);
-                        startActivity(gameOver);
-                    }
                 }
-
                 return false;
             }
         }
