@@ -16,6 +16,7 @@ public class Ball extends Sprite {
     private final Paint paint = new Paint();
     private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
+    private final int MAX_MOVES = 3;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
@@ -56,13 +57,26 @@ public class Ball extends Sprite {
      */
     public void setStartPosition(int width, int height) {
 
+        // reset the number of moves
+        movesLeft = MAX_MOVES;
+
         // calculate the size of 1 section of the grid
         float gridX = (float)(width / 3);
         float gridY = (float)(height / 3);
 
+        swipedX = 0;
+        swipedY = 0;
+
+        travelTime = 0;
+
+        velocityY = 0;
+        velocityX = 0;
+
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
-        y = stationaryY = (float)(height / 2);
+        stationaryY = (float)(height / 2);
+        y = (float)(height * 0.9);
+
 
         // calculate and store every point in the grid along each axis
         for(int i = 0; i < gridXArr.length; i++) gridXArr[i] = (i + 1) * gridX;
@@ -76,9 +90,6 @@ public class Ball extends Sprite {
      * @param sY Where the user moved their finder along the Y-axis
      */
     public void setGesture(float sX, float sY) {
-
-        // player used up a move
-        movesLeft--;
 
         // reset travel time
         travelTime = 0;
@@ -128,32 +139,35 @@ public class Ball extends Sprite {
      * Draws the ball on screen and move if the user interacts with the ball.
      */
     public void onDraw(Canvas canvas) {
-        if(movesLeft >= 0) { // check that the ball still has moves left it can make
-            if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
+        if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
 
-                // has the ball collided with any edges, if so rebound it
-                if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
-                if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
+            // has the ball collided with any edges, if so rebound it
+            if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
+            if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
 
-                // move the circle
-                x += velocityX * direction(swipedX, stationaryX, collidedX);
-                y += velocityY * direction(swipedY, stationaryY, colliedY);
+            // move the circle
+            x += velocityX * direction(swipedX, stationaryX, collidedX);
+            y += velocityY * direction(swipedY, stationaryY, colliedY);
 
-                // change the speed of the ball
-                velocityX += acceleration(velocityX);
-                velocityY += acceleration(velocityY);
+            // change the speed of the ball
+            velocityX += acceleration(velocityX);
+            velocityY += acceleration(velocityY);
 
-                // make the ball stationary and save its current position
-                if(velocityX <= 0) {
-                    velocityX = 0;
-                    stationaryX = x;
-                }
-                if(velocityY <= 0) {
-                    velocityY = 0;
-                    stationaryY = y;
-                }
-                travelTime++;
+            // make the ball stationary and save its current position
+            if(velocityX <= 0) {
+                velocityX = 0;
+                stationaryX = x;
+                swipedX = 0;
             }
+            if(velocityY <= 0) {
+                velocityY = 0;
+                stationaryY = y;
+                swipedY = 0;
+            }
+            if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
+                // player used up a move
+                movesLeft--;
+            travelTime++;
         }
         canvas.drawCircle(x, y, size, paint);
     }
