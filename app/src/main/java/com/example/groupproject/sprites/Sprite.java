@@ -19,7 +19,7 @@ abstract public class Sprite {
      *
      * @param canvas Where the sprite will be drawn
      */
-    abstract void onDraw(Canvas canvas);
+    abstract public void drawSprite(Canvas canvas);
 
     /**
      * Checks if the sprite is touching any other sprite
