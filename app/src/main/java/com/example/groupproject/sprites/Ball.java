@@ -13,7 +13,7 @@ import android.graphics.Paint;
 public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final Paint paint = new Paint();
+
     private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
     private final int MAX_MOVES = 3;
@@ -27,6 +27,8 @@ public class Ball extends Sprite {
     private float y = 0; // change along y-axis
     private float velocityX = 0; // current ball velocity along x-axis
     private float velocityY = 0; // current ball velocity along y-axis
+    private float finalVelocity;
+    private int finalTime = MAX_TIME;
     private float swipedX; // x-axis of where the screen was touched
     private float swipedY; // y-axis of where the screen was touched
     private float stationaryX; // stationary position along x-axis
@@ -42,6 +44,7 @@ public class Ball extends Sprite {
      */
     public Ball(int color, int size) {
         this.size = size;
+        finalVelocity = MAX_VELOCITY;
         paint.setColor(color);
     }
 
@@ -65,19 +68,15 @@ public class Ball extends Sprite {
         float gridX = (float)(width / 3);
         float gridY = (float)(height / 3);
 
-        swipedX = 0;
-        swipedY = 0;
+        finalTime = MAX_TIME;
+        finalVelocity = MAX_VELOCITY;
 
-        travelTime = 0;
-
-        velocityY = 0;
-        velocityX = 0;
+        this.stop();
 
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
         stationaryY = (float)(height / 2);
         y = (float)(height * 0.9);
-
 
         // calculate and store every point in the grid along each axis
         for(int i = 0; i < gridXArr.length; i++) gridXArr[i] = (i + 1) * gridX;
@@ -102,6 +101,23 @@ public class Ball extends Sprite {
         swipedX = sX;
         swipedY = sY;
     }
+
+    public void reduceVelocity(int color) {
+        paint.setColor(color);
+        finalVelocity = 30;
+        finalTime = 10;
+        movesLeft--;
+        stop();
+    }
+
+    private void stop() {
+        travelTime = 0;
+        velocityY = 0;
+        velocityX = 0;
+        swipedX = 0;
+        swipedY = 0;
+    }
+
 
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -207,10 +223,10 @@ public class Ball extends Sprite {
     private float acceleration(float initialVelocity) {
 
         // formula for acceleration
-        float acceleration = (MAX_VELOCITY - initialVelocity) / MAX_TIME;
+        float acceleration = (finalVelocity - initialVelocity) / finalTime;
 
         // check how long its travelled
-        if(travelTime <= MAX_TIME) return acceleration;
+        if(travelTime <= finalTime) return acceleration;
         else return -acceleration;
     }
 

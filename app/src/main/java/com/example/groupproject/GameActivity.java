@@ -96,6 +96,14 @@ public class GameActivity extends AppCompatActivity {
             if(water.collisionCheck(golfBall.getX(), golfBall.getY()))
                 endGame();
 
+            if(sand.collisionCheck(golfBall.getX(), golfBall.getY())) {
+                if(!sand.getHasBallHit()) {
+                    sand.setHasBallHit();
+                    golfBall.setGesture(0, 0);
+                    golfBall.reduceVelocity(R.color.sandYellow);
+                }
+            }
+
             if (target.collisionCheck(golfBall.getX(), golfBall.getY())) {
 
                 if(score == 0)
