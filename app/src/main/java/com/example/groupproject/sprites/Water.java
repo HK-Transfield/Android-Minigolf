@@ -19,10 +19,6 @@ public class Water extends Decor {
 
     /* CLASS MEMBER VARIABLES */
     private int waterColor = Color.BLUE; // colour
-    private float waterStartX = -200; // initial position (off screen)
-    private float waterStartY = -200; // initial position (off screen)
-    private float waterTrueX; // relative x position after screen load
-    private float waterTrueY; // relative y position after screen load
     private float deviceWidth; // the width of the device
     private float deviceHeight; // the height of the device
     private Target targetCurrent; // the current instance of target
@@ -35,8 +31,8 @@ public class Water extends Decor {
     public Water() {
         super();
         this.size = waterSize;
-        this.startX = waterStartX;
-        this.startY = waterStartY;
+        this.startX = this.initX;
+        this.startY = this.initY;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -56,11 +52,14 @@ public class Water extends Decor {
     public void setPosition(int width, int height) {
         deviceWidth = width; // save the device width
         deviceHeight = height; // save the device height
+
         // generate the initial position
-        waterTrueX = waterStartX = generateX(width); // generate random x
-        waterTrueY = waterStartY = generateY(height); // generate random y
+        this.trueX = this.initX = generateX(width); // generate random x
+        this.trueY = this.initY = generateY(height); // generate random y
+
         // check for overlapping with target
-        Boolean overlapCheckTarget = checkDrawOverlapTarget(targetCurrent);
+        boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
+
         if (overlapCheckTarget){
             waterColor = Color.MAGENTA; // Show that collision occurred *TEST STUFF*
             setPosition(width, height);
@@ -81,14 +80,14 @@ public class Water extends Decor {
      * Get the X position of Water
      */
     public float getWaterTrueX() {
-        return waterTrueX;
+        return this.trueX;
     }
 
     /**
      * Get the Y position of Water
      */
     public float getWaterTrueY() {
-        return waterTrueY;
+        return this.trueY;
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -120,21 +119,6 @@ public class Water extends Decor {
     }
 
     /**
-     * Check if the water position will overlap with the Target.
-     * If the water overlaps target, it should generate a new position.
-     * @param target the target to compare positions to.
-     * @return True if a collision is detected.
-     */
-    public boolean checkDrawOverlapTarget(Target target) {
-        float xDifference = target.getTargetTrueX() - waterTrueX; // Get the X difference
-        float yDifference = target.getTargetTrueY() - waterTrueY; // Get the Y difference
-        // Calculate the difference squared
-        float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
-        // Collision check
-        return distanceSquared < (size + size) * (waterSize + waterSize);
-    }
-
-    /**
      * Draw a Water circle with a specified colour at a randomly,
      * generated x and y.
      *
@@ -143,7 +127,7 @@ public class Water extends Decor {
     @Override
     public void drawSprite(Canvas canvas) {
         paint.setColor(waterColor); // set the colour
-        canvas.drawCircle(waterStartX, waterStartY, waterSize, paint); // draw the target
+        canvas.drawCircle(this.initX, this.initY, waterSize, paint); // draw the target
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

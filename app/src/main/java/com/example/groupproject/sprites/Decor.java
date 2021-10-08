@@ -34,7 +34,21 @@ abstract public class Decor extends Sprite {
                 bY >= trueY - size && bY <= trueY + size;
     }
 
+    public boolean checkDrawOverlap(Decor d) {
+        float diffX = d.getTrueX() - this.trueX;
+        float diffY = d.getTrueY() - this.trueY;
 
+        float distanceSquared = (diffX * diffX) + (diffY * diffY);
+        return  distanceSquared < (size + size) * (this.size + this.size);
+    }
+
+    public float getTrueX() {
+        return this.trueX;
+    }
+
+    public float getTrueY() {
+        return this.trueY;
+    }
 
     /**
      * Generates a random x position.

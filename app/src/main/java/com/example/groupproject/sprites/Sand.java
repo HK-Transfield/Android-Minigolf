@@ -50,17 +50,22 @@ public class Sand extends Decor {
     public void setPosition(int width, int height) {
         deviceWidth = width; // save the device width
         deviceHeight = height; // save the device height
+
         // generate the initial position
         this.trueX = this.initX = generateX(width); // generate random x
         this.trueY = this.initY = generateY(height); // generate random y
+
         // check for overlapping with target
-        boolean overlapCheckTarget = checkDrawOverlapTarget(targetCurrent);
+        boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
+
         if (overlapCheckTarget) {
             sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
             setPosition(width, height);
         }
+
         // check for overlapping with water
-        boolean overlapCheckWater = checkDrawOverlapWater(waterCurrent);
+        boolean overlapCheckWater = checkDrawOverlap(waterCurrent);
+
         // if overlapping, recalculate position
         if (overlapCheckWater) {
             sandColor = Color.DKGRAY; // Show that collision occurred *TEST STUFF*
@@ -78,6 +83,7 @@ public class Sand extends Decor {
     public void getTheWater(Water water) {
         waterCurrent = water;
     }
+
     /**
      * Get the current instance of target.
      */
@@ -114,35 +120,6 @@ public class Sand extends Decor {
         double maxHeight = 0.7;
         int max = (int) (height * maxHeight) + sandSize; // lowest point it should be drawn
         return random.nextInt(max-min) + min;
-    }
-
-    /**
-     * Check if the sand position will overlap with the water.
-     * If the sand overlaps water. it should generate a new position.
-     * @param water the water to compare positions to.
-     * @return True if a collision is detected.
-     */
-    public boolean checkDrawOverlapWater(Water water) {
-        float xDifference = water.getWaterTrueX() - this.trueX; // Get the X difference
-        float yDifference = water.getWaterTrueY() - this.trueY; // Get the Y difference
-        // Calculate the difference squared
-        float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
-        // Collision check
-        return distanceSquared < (size + size) * (sandSize + sandSize);
-    }
-
-    /**
-     * Use positions to check for a overlapping collision with target.
-     * If a collision is detected, sand should generate a new position.
-     * @return True if a collision is detected.
-     */
-    public boolean checkDrawOverlapTarget(Target target) {
-        float xDifference = target.getTargetTrueX() - this.trueX; // Get the X difference
-        float yDifference = target.getTargetTrueY() - this.trueY; // Get the Y difference
-        // Calculate the difference squared
-        float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
-        // Collision check
-        return distanceSquared < (size + size) * (sandSize + sandSize);
     }
 
     /**
