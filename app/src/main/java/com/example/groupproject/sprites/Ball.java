@@ -139,7 +139,7 @@ public class Ball extends Sprite {
     /**
      * Draws the ball on screen and move if the user interacts with the ball.
      */
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
         if(swipedX != 0.0f || swipedY != 0.0f) { // the user has interacted with the ball
 
             // has the ball collided with any edges, if so rebound it

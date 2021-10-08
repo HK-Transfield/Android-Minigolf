@@ -72,24 +72,21 @@ public class Sand extends Decor {
             setPosition(width, height);
         }
     }
-    /*--------------------------------------------------------------------------------------------*/
-    //endregion
 
-    //region GETTERS
-    /*--------------------------------------------------------------------------------------------*/
     /**
      * Get the current instance of water.
      */
-    public void getTheWater(Water water) {
+    public void setWaterCurrent(Water water) {
         waterCurrent = water;
     }
 
     /**
      * Get the current instance of target.
      */
-    public void getTheTarget(Target target) {
+    public void setTargetCurrent(Target target) {
         targetCurrent = target;
     }
+
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
