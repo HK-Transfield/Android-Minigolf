@@ -14,8 +14,8 @@ abstract public class Decor extends Sprite {
     Paint paint = new Paint(); // paint to share
     Random random = new Random(); // random number generator to share
 
-    protected double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
-    protected double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
+    protected static double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
+    protected static double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
     protected float initX = -200; // set initial x-axis offscreen
     protected float initY = -200; // set initial y-axis offscreen
     protected float trueX;
@@ -37,20 +37,16 @@ abstract public class Decor extends Sprite {
     }
 
     public boolean checkDrawOverlap(Decor d) {
-        float diffX = d.getTrueX() - this.trueX;
-        float diffY = d.getTrueY() - this.trueY;
+        float diffX = d.getTrueX() - trueX;
+        float diffY = d.getTrueY() - trueY;
 
         float distanceSquared = (diffX * diffX) + (diffY * diffY);
         return  distanceSquared < (size + size) * (this.size + this.size);
     }
 
-    public float getTrueX() {
-        return this.trueX;
-    }
+    abstract protected float getTrueX();
 
-    public float getTrueY() {
-        return this.trueY;
-    }
+    abstract protected float getTrueY();
 
     /**
      * Generates a random x position.

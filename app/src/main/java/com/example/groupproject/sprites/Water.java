@@ -59,8 +59,8 @@ public class Water extends Decor {
         boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
 
         if (overlapCheckTarget){
-            waterColor = Color.MAGENTA; // Show that collision occurred *TEST STUFF*
-            setPosition(width, height);
+            //waterColor = Color.MAGENTA; // Show that collision occurred *TEST STUFF*
+            this.setPosition(width, height);
         }
     }
 
@@ -79,14 +79,12 @@ public class Water extends Decor {
     /**
      * Get the X position of Water
      */
-    public float getWaterTrueX() {
-        return this.trueX;
-    }
+    protected float getTrueX() { return this.trueX; }
 
     /**
      * Get the Y position of Water
      */
-    public float getWaterTrueY() {
+    protected float getTrueY() {
         return this.trueY;
     }
     /*--------------------------------------------------------------------------------------------*/

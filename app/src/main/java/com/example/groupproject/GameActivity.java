@@ -4,19 +4,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.groupproject.sprites.Ball;
+import com.example.groupproject.sprites.Sand;
 import com.example.groupproject.sprites.Target;
+import com.example.groupproject.sprites.Water;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -33,15 +33,37 @@ public class GameActivity extends AppCompatActivity {
         private final GestureDetector gd;
         private final Ball golfBall;
         private final Target target;
+        private final Sand sand;
+        private final Water water;
         private TextView movesTextView;
         private TextView scoreTextView;
         private int score = 0;
+
+        /**
+         * Constructor. Creates a new instance of a
+         * GraphicsView object.
+         */
+        public GraphicsView(Context context) {
+            super(context);
+            golfBall = new Ball(getColor(R.color.white), 50);
+            target = new Target();
+            sand = new Sand();
+            water = new Water();
+            gd = new GestureDetector(context, new MyGestureListener());
+        }
 
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             golfBall.setPosition(w, h);
             target.setPosition(w, h);
+
+            water.setCurrentTarget(target);
+            water.setPosition(w, h);
+
+            sand.setTargetCurrent(target);
+            sand.setWaterCurrent(water);
+            sand.setPosition(w, h);
         }
 
         public void setMovesTextView(TextView tv) {
@@ -53,48 +75,47 @@ public class GameActivity extends AppCompatActivity {
         }
 
         /**
-         * Constructor. Creates a new instance of a
-         * GraphicsView object.
-         */
-        public GraphicsView(Context context) {
-            super(context);
-            golfBall = new Ball(getColor(R.color.white), 50);
-            target = new Target();
-            gd = new GestureDetector(context, new MyGestureListener());
-        }
-
-
-        /**
          * Draws a ball on screen. The ball will remain in the center of the screen
          * until the screen is touched anywhere, which will then cause the ball to
          * move around the screen and bounce off the edges.
          */
-        @SuppressLint("DrawAllocation")
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             movesTextView.setText(String.valueOf(golfBall.getMovesLeft()));
             scoreTextView.setText(String.valueOf(score));
 
-            if (golfBall.getMovesLeft() == 0) {
-                Intent gameOver = new Intent(getContext(), GameOverActivity.class);
-                startActivity(gameOver);
-            }
+            if (golfBall.getMovesLeft() == 0)
+                endGame();
 
-            target.onDraw(canvas);
-            golfBall.onDraw(canvas);
+            target.drawSprite(canvas);
+            water.drawSprite(canvas);
+            sand.drawSprite(canvas);
+            golfBall.drawSprite(canvas);
 
-            if (target.hasBallHit(golfBall.getX(), golfBall.getY())) {
+            if(water.collisionCheck(golfBall.getX(), golfBall.getY()))
+                endGame();
+
+            if (target.collisionCheck(golfBall.getX(), golfBall.getY())) {
+
                 if(score == 0)
                     score++;
                 else
                     score += score * golfBall.getMovesLeft();
+
                 golfBall.setPosition(getWidth(), getHeight());
                 target.setPosition(getWidth(), getHeight());
+                water.setPosition(getWidth(), getHeight());
+                sand.setPosition(getWidth(), getHeight());
             }
             invalidate();
         }
 
+
+        private void endGame() {
+            Intent gameOver = new Intent(getContext(), GameOverActivity.class);
+            startActivity(gameOver);
+        }
 
         /**
          * Tracks every time the screen is touched by the user. The
@@ -118,7 +139,7 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if(golfBall.swipedBall(golfBall.getX(), e1.getX()) && golfBall.swipedBall(golfBall.getY(), e1.getY())) {
+                if(golfBall.swipedBall(e1.getX(), e1.getY())) {
                     golfBall.setGesture(e2.getX(), e2.getY());
                 }
                 return false;

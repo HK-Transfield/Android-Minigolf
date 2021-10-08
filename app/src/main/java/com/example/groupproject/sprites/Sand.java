@@ -2,6 +2,7 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * This class is used to display a Sand obstacle in the game.
@@ -36,6 +37,23 @@ public class Sand extends Decor {
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
+    //region GETTERS
+    /*--------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get the X position of Sand
+     */
+    protected float getTrueX() { return this.trueX; }
+
+    /**
+     * Get the Y position of Sand
+     */
+    protected float getTrueY() {
+        return this.trueY;
+    }
+    /*--------------------------------------------------------------------------------------------*/
+    //endregion
+
     //region SETTERS
     /*--------------------------------------------------------------------------------------------*/
     /**
@@ -56,20 +74,12 @@ public class Sand extends Decor {
         this.trueY = this.initY = generateY(height); // generate random y
 
         // check for overlapping with target
-        boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
+        boolean overlapCheck = checkDrawOverlap(targetCurrent) || checkDrawOverlap(waterCurrent);
 
-        if (overlapCheckTarget) {
-            sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
-            setPosition(width, height);
-        }
-
-        // check for overlapping with water
-        boolean overlapCheckWater = checkDrawOverlap(waterCurrent);
-
-        // if overlapping, recalculate position
-        if (overlapCheckWater) {
-            sandColor = Color.DKGRAY; // Show that collision occurred *TEST STUFF*
-            setPosition(width, height);
+        if (overlapCheck) {
+            //sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
+            Log.i("OVERLAP", "There is an overlap");
+            this.setPosition(width, height);
         }
     }
 
@@ -127,7 +137,7 @@ public class Sand extends Decor {
     @Override
     public void drawSprite(Canvas canvas) {
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(this.startX, this.startY, SAND_SIZE, paint); // draw the target
+        canvas.drawCircle(this.initX, this.initY, SAND_SIZE, paint); // draw the target
     }
 
     /*--------------------------------------------------------------------------------------------*/
