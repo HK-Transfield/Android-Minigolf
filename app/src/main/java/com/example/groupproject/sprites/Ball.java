@@ -223,12 +223,14 @@ public class Ball extends Sprite {
     /**
      * Determines if the origin of when the swiped occurred happened in the ball.
      *
-     * @param axis the direction to compare the gesture's direction
-     * @param touchedAxis the location of the gesture
+     * @param tX The user's touch along the x-axis
+     * @param tY the user's touch along the y-axis
+     *
      * @return True if the ball was swiped
      */
-    public boolean swipedBall(float axis, float touchedAxis) {
-        return touchedAxis <= axis + size && touchedAxis >= axis - size;
+    public boolean swipedBall(float tX, float tY) {
+        return tX <= x + size && tX >= x - size &&
+                tY <= y + size && tY >= y - size;
     }
 
     /**
