@@ -12,7 +12,7 @@ import android.graphics.Color;
 public class Sand extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int sandSize = 120; // needs to scale to screen size?
+    private final int SAND_SIZE = 120; // needs to scale to screen size?
 
     /* CLASS MEMBER VARIABLES */
     private int sandColor = Color.YELLOW; // the colour
@@ -28,7 +28,7 @@ public class Sand extends Decor {
      */
     public Sand() {
         super();
-        this.size = sandSize;
+        this.size = SAND_SIZE;
         this.startX = this.initX; // randomly generate this
         this.startY = this.initY; // randomly generate this
     }
@@ -99,10 +99,12 @@ public class Sand extends Decor {
      */
     @Override
     protected int generateX(int width) {
-        int min = sandSize; // most left it should be
-        int max = width - sandSize; // most right it should be
+        int min = SAND_SIZE; // most left it should be
+        int max = width - SAND_SIZE; // most right it should be
+
         return random.nextInt(max-min) + min;
     }
+
     /**
      * Generate a random Y position within 20% - 70% of the screen height
      *
@@ -110,12 +112,9 @@ public class Sand extends Decor {
      */
     @Override
     protected int generateY(int height) {
-        // uppermost % of screen to spawn in (20%)
-        double minHeight = 0.2;
-        int min = (int) (height * minHeight) + sandSize; // highest point it should be drawn
-        // lowest % of screen to spawn in (70%)
-        double maxHeight = 0.7;
-        int max = (int) (height * maxHeight) + sandSize; // lowest point it should be drawn
+        int min = (int) (height * minHeight) + SAND_SIZE; // highest point it should be drawn
+        int max = (int) (height * maxHeight) + SAND_SIZE; // lowest point it should be drawn
+
         return random.nextInt(max-min) + min;
     }
 
@@ -128,7 +127,7 @@ public class Sand extends Decor {
     @Override
     public void drawSprite(Canvas canvas) {
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(this.startX, this.startY, sandSize, paint); // draw the target
+        canvas.drawCircle(this.startX, this.startY, SAND_SIZE, paint); // draw the target
     }
 
     /*--------------------------------------------------------------------------------------------*/

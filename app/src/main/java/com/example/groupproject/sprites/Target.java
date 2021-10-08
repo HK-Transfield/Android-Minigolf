@@ -89,9 +89,8 @@ public class Target extends Decor {
     @Override
     protected int generateY(int height) {
         int min = TARGET_SIZE; // highest point it should be drawn
-        // lowest % of screen to spawn in (20%)
-        double maxHeight = 0.2;
         int max = (int) (height * maxHeight); // lowest point it should be drawn
+
         return random.nextInt(max-min) + min;
     }
 

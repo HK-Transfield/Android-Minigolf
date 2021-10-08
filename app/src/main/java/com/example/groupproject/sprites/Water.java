@@ -13,9 +13,7 @@ import android.graphics.Color;
 public class Water extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int waterSize = 120; // needs to scale to screen size
-    private final double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
-    private final double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
+    private final int WATER_SIZE = 120; // needs to scale to screen size
 
     /* CLASS MEMBER VARIABLES */
     private int waterColor = Color.BLUE; // colour
@@ -30,7 +28,7 @@ public class Water extends Decor {
      */
     public Water() {
         super();
-        this.size = waterSize;
+        this.size = WATER_SIZE;
         this.startX = this.initX;
         this.startY = this.initY;
     }
@@ -65,17 +63,19 @@ public class Water extends Decor {
             setPosition(width, height);
         }
     }
+
+    /**
+     * Get the current instance of target
+     */
+    public void setCurrentTarget(Target target) {
+        targetCurrent = target;
+    }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
     //region GETTERS
     /*--------------------------------------------------------------------------------------------*/
-    /**
-     * Get the current instance of target
-     */
-    public void getTheTarget(Target target) {
-        targetCurrent = target;
-    }
+
     /**
      * Get the X position of Water
      */
@@ -101,8 +101,9 @@ public class Water extends Decor {
      */
     @Override
     protected int generateX(int width) {
-        int min = waterSize; // most left it should be
-        int max = width - waterSize; // most right it should be
+        int min = WATER_SIZE; // most left it should be
+        int max = width - WATER_SIZE; // most right it should be
+
         return random.nextInt(max-min) + min;
     }
 
@@ -113,8 +114,9 @@ public class Water extends Decor {
      */
     @Override
     protected int generateY(int height) {
-        int min = (int) (height * minHeight) + waterSize; // highest point it should be drawn
-        int max = (int) (height * maxHeight) + waterSize; // lowest point it should be drawn
+        int min = (int) (height * minHeight) + WATER_SIZE; // highest point it should be drawn
+        int max = (int) (height * maxHeight) + WATER_SIZE; // lowest point it should be drawn
+
         return random.nextInt(max-min) + min;
     }
 
@@ -127,7 +129,7 @@ public class Water extends Decor {
     @Override
     public void drawSprite(Canvas canvas) {
         paint.setColor(waterColor); // set the colour
-        canvas.drawCircle(this.initX, this.initY, waterSize, paint); // draw the target
+        canvas.drawCircle(this.initX, this.initY, WATER_SIZE, paint); // draw the target
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

@@ -14,6 +14,8 @@ abstract public class Decor extends Sprite {
     Paint paint = new Paint(); // paint to share
     Random random = new Random(); // random number generator to share
 
+    protected double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
+    protected double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
     protected float initX = -200; // set initial x-axis offscreen
     protected float initY = -200; // set initial y-axis offscreen
     protected float trueX;
