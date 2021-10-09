@@ -16,7 +16,6 @@ public class Target extends Decor {
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int TARGET_SIZE = 60; // needs to scale to screen size?
 
-
     //region CONSTRUCTOR
     /*--------------------------------------------------------------------------------------------*/
     /**
@@ -25,8 +24,6 @@ public class Target extends Decor {
     public Target() {
         super();
         this.size = TARGET_SIZE;
-        this.x = this.initX;
-        this.y = this.initY;
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -43,25 +40,8 @@ public class Target extends Decor {
      */
     @Override
     public void setPosition(int width, int height) {
-        this.trueX = this.initX = generateX(width); // generate random x
-        this.trueY = this.initY= generateY(height); // generate random y
-    }
-    /*--------------------------------------------------------------------------------------------*/
-    //endregion
-
-    //region GETTERS
-    /*--------------------------------------------------------------------------------------------*/
-
-    /**
-     * Get the X position of Target
-     */
-    protected float getTrueX() { return this.trueX; }
-
-    /**
-     * Get the Y position of Target
-     */
-    protected float getTrueY() {
-        return this.trueY;
+        this.trueX = this.x = generateX(width); // generate random x
+        this.trueY = this.y = generateY(height); // generate random y
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -105,7 +85,7 @@ public class Target extends Decor {
         // colour
         int targetColor = Color.RED;
         paint.setColor(targetColor); // set the colour
-        canvas.drawCircle(this.initX, this.initY, TARGET_SIZE, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, TARGET_SIZE, paint); // draw the target
     }
 
     /*--------------------------------------------------------------------------------------------*/

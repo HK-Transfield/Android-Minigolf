@@ -28,8 +28,6 @@ public class Sand extends Decor {
     public Sand() {
         super();
         this.size = SAND_SIZE;
-        this.x = this.initX; // randomly generate this
-        this.y = this.initY; // randomly generate this
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -37,18 +35,6 @@ public class Sand extends Decor {
 
     //region GETTERS
     /*--------------------------------------------------------------------------------------------*/
-
-    /**
-     * Get the X position of Sand
-     */
-    protected float getTrueX() { return this.trueX; }
-
-    /**
-     * Get the Y position of Sand
-     */
-    protected float getTrueY() {
-        return this.trueY;
-    }
 
     /**
      * Get the current state of whether the ball has hit the Sand
@@ -73,8 +59,8 @@ public class Sand extends Decor {
         hasBallHit = false;
 
         // generate the initial position
-        this.trueX = this.initX = generateX(width); // generate random x
-        this.trueY = this.initY = generateY(height); // generate random y
+        this.trueX = this.x = generateX(width); // generate random x
+        this.trueY = this.y = generateY(height); // generate random y
 
         // check for overlapping with target
         boolean overlapCheck = checkDrawOverlap(targetCurrent) || checkDrawOverlap(waterCurrent);
@@ -138,11 +124,10 @@ public class Sand extends Decor {
      */
     @Override
     public void drawSprite(Canvas canvas) {
-
-        // the colour
         int sandColor = Color.YELLOW;
+
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(this.initX, this.initY, SAND_SIZE, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, SAND_SIZE, paint); // draw the target
     }
 
     /*--------------------------------------------------------------------------------------------*/

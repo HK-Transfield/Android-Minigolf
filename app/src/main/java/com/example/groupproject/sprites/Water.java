@@ -26,8 +26,6 @@ public class Water extends Decor {
     public Water() {
         super();
         this.size = WATER_SIZE;
-        this.x = this.initX;
-        this.y = this.initY;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -47,8 +45,8 @@ public class Water extends Decor {
     public void setPosition(int width, int height) {
 
         // generate the initial position
-        this.trueX = this.initX = generateX(width); // generate random x
-        this.trueY = this.initY = generateY(height); // generate random y
+        this.trueX = this.x = generateX(width); // generate random x
+        this.trueY = this.y = generateY(height); // generate random y
 
         // check for overlapping with target
         boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
@@ -62,23 +60,6 @@ public class Water extends Decor {
      */
     public void setCurrentTarget(Target target) {
         targetCurrent = target;
-    }
-    /*--------------------------------------------------------------------------------------------*/
-    //endregion
-
-    //region GETTERS
-    /*--------------------------------------------------------------------------------------------*/
-
-    /**
-     * Get the X position of Water
-     */
-    protected float getTrueX() { return this.trueX; }
-
-    /**
-     * Get the Y position of Water
-     */
-    protected float getTrueY() {
-        return this.trueY;
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -123,7 +104,7 @@ public class Water extends Decor {
         // colour
         int waterColor = Color.BLUE;
         paint.setColor(waterColor); // set the colour
-        canvas.drawCircle(this.initX, this.initY, WATER_SIZE, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, WATER_SIZE, paint); // draw the target
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

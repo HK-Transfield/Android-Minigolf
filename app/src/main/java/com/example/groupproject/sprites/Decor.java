@@ -13,8 +13,7 @@ abstract public class Decor extends Sprite {
     protected Random random = new Random(); // random number generator to share
     protected static double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
     protected static double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
-    protected float initX = -200; // set initial x-axis offscreen
-    protected float initY = -200; // set initial y-axis offscreen
+    protected float initialPosition = -200; // set initial x-axis offscreen
     protected float trueX;
     protected float trueY;
 
@@ -23,6 +22,8 @@ abstract public class Decor extends Sprite {
      */
     public Decor() {
         super();
+        this.x = initialPosition;
+        this.y = initialPosition;
     }
 
     /**
@@ -41,9 +42,9 @@ abstract public class Decor extends Sprite {
         return  distanceSquared < (size + size) * (this.size + this.size);
     }
 
-    abstract protected float getTrueX();
+    protected float getTrueX() { return this.trueX; }
 
-    abstract protected float getTrueY();
+    protected float getTrueY() { return this.trueY; }
 
     /**
      * Generates a random x position.
