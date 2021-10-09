@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@drawable/tiled_wall"
     android:id="@+id/gamescreen_fullscreen">
 
     <!-- Game screen interactive area -->
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="20dp"
-        android:background="@color/darkerGreen"
+        android:background="@drawable/grass"
         android:scaleType="centerCrop"
         android:contentDescription="@string/image_desc_grass" />
 
