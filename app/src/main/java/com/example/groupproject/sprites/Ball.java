@@ -1,6 +1,7 @@
 package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
@@ -19,12 +20,13 @@ public class Ball extends Sprite {
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
     /* CLASS MEMBER VARIABLES */
+    private int defaultColor = Color.WHITE; // default color of ball
     private int travelTime = 0; // how long the ball has travelled for
-    private int movesLeft = 3;
+    private int movesLeft = 3; // the number of moves the ball can make
     private float velocityX = 0; // current ball velocity along x-axis
     private float velocityY = 0; // current ball velocity along y-axis
-    private float finalVelocity;
-    private int finalTime = MAX_TIME;
+    private float finalVelocity; // the fastest speed the ball can move
+    private int finalTime = MAX_TIME; // the max travel time the ball will travel
     private float swipedX; // x-axis of where the screen was touched
     private float swipedY; // y-axis of where the screen was touched
     private float stationaryX; // stationary position along x-axis
@@ -35,12 +37,11 @@ public class Ball extends Sprite {
     /**
      * Constructor, instantiates a new Ball object
      *
-     * @param color what the ball will look like on screen
      * @param size the size used as the radius of the ball
      */
-    public Ball(int color, int size) {
+    public Ball(int size) {
         this.size = size;
-        this.paint.setColor(color);
+        this.paint.setColor(defaultColor);
         finalVelocity = MAX_VELOCITY;
     }
 
@@ -69,8 +70,9 @@ public class Ball extends Sprite {
         finalTime = MAX_TIME;
         finalVelocity = MAX_VELOCITY;
 
-        // move ball to complete stop
+        // move ball to complete stop and restore colour
         this.stop();
+        this.paint.setColor(defaultColor);
 
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
@@ -100,7 +102,6 @@ public class Ball extends Sprite {
         swipedX = sX;
         swipedY = sY;
     }
-
 
     /*--------------------------------------------------------------------------------------------*/
     //endregion
