@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity {
         private TextView movesTextView;
         private TextView scoreTextView;
         private int score = 0;
+        private final int BALL_SIZE = 50;
 
         /**
          * Constructor. Creates a new instance of a
@@ -45,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
          */
         public GraphicsView(Context context) {
             super(context);
-            golfBall = new Ball(getColor(R.color.white), 50);
+            golfBall = new Ball(BALL_SIZE);
             target = new Target();
             sand = new Sand();
             water = new Water();
