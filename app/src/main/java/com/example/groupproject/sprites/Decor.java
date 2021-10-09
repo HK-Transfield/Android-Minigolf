@@ -11,53 +11,68 @@ import java.util.Random;
  */
 abstract public class Decor extends Sprite {
 
-    Paint paint = new Paint(); // paint to share
-    Random random = new Random(); // random number generator to share
+    /* CONSTANT CLASS MEMBER VARIABLES */
+    protected final float INITIAL_POSITION = -200; // set initial x-axis offscreen
+
+    /* CLASS MEMBER VARIABLES */
+    protected Random random = new Random(); // random number generator to share
+    protected static double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
+    protected static double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
+    protected float trueX;
+    protected float trueY;
 
     /**
      * Constructor
      */
     public Decor() {
         super();
+        this.x = INITIAL_POSITION;
+        this.y = INITIAL_POSITION;
     }
 
-    /**
-     * Draws the decor to the screen.
-     */
-    @Override
-    public void onDraw(Canvas canvas) {
-
-    }
     /**
      * Checks if the Ball has collided with a Decor.
      */
-    @Override
-    boolean collisionCheck() {
-        return false;
+    public boolean collisionCheck(float bX, float bY) {
+        return  bX >= trueX - size && bX <= trueX + size &&
+                bY >= trueY - size && bY <= trueY + size;
     }
+
     /**
-     * Handles the collision event with the ball.
+     * Checks if the Decor will overlap with any other decor drawn
+     * on screen. This is used to indicate to the Decor that it needs
+     * to draw a new position.
+     *
+     * @return True if there is overlap with another Decor object
      */
-    void onCollision(){
+    public boolean checkDrawOverlap(Decor d) {
+        float diffX = d.getTrueX() - trueX;
+        float diffY = d.getTrueY() - trueY;
+
+        float distanceSquared = (diffX * diffX) + (diffY * diffY);
+        return  distanceSquared < (size + size) * (this.size + this.size);
     }
+
+    /**
+     * Returns the final X position of the decor
+     */
+    protected float getTrueX() { return this.trueX; }
+
+    /**
+     * Returns the final Y position of the decor
+     */
+    protected float getTrueY() { return this.trueY; }
+
     /**
      * Generates a random x position.
      * @param width The width of the device
      */
-    int generateX(int width){
-        return 0;
-    }
+    protected abstract int generateX(int width);
+
     /**
      * Generates a random y position.
      * @param height The height of the device
      */
-    int generateY(int height){
-        return 0;
-    }
-    /**
-     * Sets position after layout has loaded.
-     * @param width the width of the current device
-     * @param height the height of the current device
-     */
-    public abstract void setPosition(int width, int height);
+    protected abstract int generateY(int height);
+
 }

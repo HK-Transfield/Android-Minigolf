@@ -2,7 +2,6 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.Log;
 
 /**
  * This class is used to display a Target in the game for the user to
@@ -15,15 +14,7 @@ import android.util.Log;
 public class Target extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int targetSize = 60; // needs to scale to screen size?
-    private final int targetColor = Color.RED; // colour
-    private final double maxHeight = 0.2; // lowest % of screen to spawn in (20%)
-
-    /* CLASS MEMBER VARIABLES */
-    private float targetStartX = -200; // initial position (off screen)
-    private float targetStartY = -200; // initial position (off screen)
-    private float targetTrueX; // relative x position after screen load
-    private float targetTrueY; // relative y position after screen load
+    private final int TARGET_SIZE = 60; // needs to scale to screen size?
 
     //region CONSTRUCTOR
     /*--------------------------------------------------------------------------------------------*/
@@ -32,9 +23,7 @@ public class Target extends Decor {
      */
     public Target() {
         super();
-        this.size = targetSize;
-        this.startX = targetStartX;
-        this.startY = targetStartY;
+        this.size = TARGET_SIZE;
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -51,42 +40,9 @@ public class Target extends Decor {
      */
     @Override
     public void setPosition(int width, int height) {
-        targetTrueX = targetStartX = generateX(width); // generate random x
-        targetTrueY = targetStartY= generateY(height); // generate random y
+        this.trueX = this.x = generateX(width); // generate random x
+        this.trueY = this.y = generateY(height); // generate random y
     }
-    /*--------------------------------------------------------------------------------------------*/
-    //endregion
-
-    public void resetPosition() {
-        targetX = generateX();
-        targetY = generateY();
-    }
-
-
-    /*
-    ballX <= targetX && ballX >= targetX - targetSize || ballX >= targetX && ballX <= targetX + targetSize ||
-    ballX <= targetY && ballX >= targetY - targetSize || ballY >= targetX && ballY <= targetY + targetSize;
-
-    */
-    public boolean hasBallHit(float ballX, float ballY) {
-        return  ballX >= targetX - targetSize && ballX <= targetX + targetSize &&
-                ballY >= targetY - targetSize && ballY <= targetY + targetSize;
-    }
-
-    /**
-     * Get the X position of Target
-     */
-    public float getTargetTrueX() {
-        return targetTrueX;
-    }
-
-    /**
-     * Get the Y position of Target
-     */
-    public float getTargetTrueY() {
-        return targetTrueY;
-    }
-
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
@@ -98,9 +54,9 @@ public class Target extends Decor {
      * @param width how wide the playable game screen is.
      */
     @Override
-    int generateX(int width) {
-        int min = targetSize; // most left it should be
-        int max = width - targetSize; // most right it should be
+    protected int generateX(int width) {
+        int min = TARGET_SIZE; // most left it should be
+        int max = width - TARGET_SIZE; // most right it should be
         return random.nextInt(max-min) + min;
     }
 
@@ -111,9 +67,10 @@ public class Target extends Decor {
      * @param height how long the playable game screen is.
      */
     @Override
-    int generateY(int height) {
-        int min = targetSize; // highest point it should be drawn
-        int max = (int) (height * maxHeight); // lowest point it should be drawn
+    protected int generateY(int height) {
+        int min = TARGET_SIZE; // highest point it should be drawn
+        int max = (int) (height * minHeight); // lowest point it should be drawn
+
         return random.nextInt(max-min) + min;
     }
 
@@ -124,19 +81,13 @@ public class Target extends Decor {
      * @param canvas the object to draw the Target object on.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
+        // colour
+        int targetColor = Color.RED;
         paint.setColor(targetColor); // set the colour
-        canvas.drawCircle(targetStartX, targetStartY, targetSize, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, TARGET_SIZE, paint); // draw the target
     }
 
-    /**
-     * TODO
-     */
-    @Override
-    void onCollision() {
-        super.onCollision();
-        // TODO
-    }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 }

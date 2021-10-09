@@ -2,6 +2,7 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * This class is used to display a Sand obstacle in the game.
@@ -12,20 +13,12 @@ import android.graphics.Color;
 public class Sand extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int sandSize = 120; // needs to scale to screen size?
-    private final double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
-    private final double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
+    private final int SAND_SIZE = 120; // needs to scale to screen size?
 
     /* CLASS MEMBER VARIABLES */
-    private int sandColor = Color.YELLOW; // the colour
-    private float sandStartX = -200; // initial position (off screen)
-    private float sandStartY = -200; // initial position (off screen)
-    private float sandTrueX; // relative x position after screen load
-    private float sandTrueY; // relative y position after screen load
-    private float deviceWidth; // the width of the device
-    private float deviceHeight; // the height of the device
     private Water waterCurrent; // the current instance of water
     private Target targetCurrent; // the current instance of target
+    private boolean hasBallHit = false; // checks if the ball has hit it in that round
 
     //region CONSTRUCTOR
     /*--------------------------------------------------------------------------------------------*/
@@ -34,10 +27,19 @@ public class Sand extends Decor {
      */
     public Sand() {
         super();
-        this.size = sandSize;
-        this.startX = sandStartX; // randomly generate this
-        this.startY = sandStartY; // randomly generate this
+        this.size = SAND_SIZE;
     }
+
+    /*--------------------------------------------------------------------------------------------*/
+    //endregion
+
+    //region GETTERS
+    /*--------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get the current state of whether the ball has hit the Sand
+     */
+    public boolean getHasBallHit() { return hasBallHit; }
 
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -54,97 +56,64 @@ public class Sand extends Decor {
      */
     @Override
     public void setPosition(int width, int height) {
-        deviceWidth = width; // save the device width
-        deviceHeight = height; // save the device height
-        // generate the initial position
-        sandTrueX = sandStartX = generateX(width); // generate random x
-        sandTrueY = sandStartY = generateY(height); // generate random y
-        // check for overlapping with target
-        Boolean overlapCheckTarget = checkDrawOverlapTarget(targetCurrent);
-        if (overlapCheckTarget) {
-            sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
-            setPosition(width, height);
-        }
-        // check for overlapping with water
-        Boolean overlapCheckWater = checkDrawOverlapWater(waterCurrent);
-        // if overlapping, recalculate position
-        if (overlapCheckWater) {
-            sandColor = Color.DKGRAY; // Show that collision occurred *TEST STUFF*
-            setPosition(width, height);
-        }
-    }
-    /*--------------------------------------------------------------------------------------------*/
-    //endregion
+        hasBallHit = false;
 
-    //region GETTERS
-    /*--------------------------------------------------------------------------------------------*/
+        // generate the initial position
+        this.trueX = this.x = generateX(width); // generate random x
+        this.trueY = this.y = generateY(height); // generate random y
+
+        // check for overlapping with target
+        boolean overlapCheck = checkDrawOverlap(targetCurrent) || checkDrawOverlap(waterCurrent);
+
+        if (overlapCheck)
+            this.setPosition(width, height);
+    }
+
     /**
      * Get the current instance of water.
      */
-    public void getTheWater(Water water) {
-        waterCurrent = water;
-    }
+    public void setWaterCurrent(Water water) { waterCurrent = water; }
+
     /**
      * Get the current instance of target.
      */
-    public void getTheTarget(Target target) {
-        targetCurrent = target;
-    }
+    public void setTargetCurrent(Target target) { targetCurrent = target; }
+
+    /**
+     * The ball has hit the sand
+     */
+    public void setHasBallHit() { hasBallHit = true; }
+
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
     //region METHODS
     /*--------------------------------------------------------------------------------------------*/
+
     /**
      * Generate a random X position within the playable area of the screen width.
      *
      * @param width how wide the playable game screen is.
      */
     @Override
-    int generateX(int width) {
-        int min = sandSize; // most left it should be
-        int max = width - sandSize; // most right it should be
+    protected int generateX(int width) {
+        int min = SAND_SIZE; // most left it should be
+        int max = width - SAND_SIZE; // most right it should be
+
         return random.nextInt(max-min) + min;
     }
+
     /**
      * Generate a random Y position within 20% - 70% of the screen height
      *
      * @param height how long the playable game screen is.
      */
     @Override
-    int generateY(int height) {
-        int min = (int) (height * minHeight) + sandSize; // highest point it should be drawn
-        int max = (int) (height * maxHeight) + sandSize; // lowest point it should be drawn
+    protected int generateY(int height) {
+        int min = (int) (height * minHeight) + SAND_SIZE; // highest point it should be drawn
+        int max = (int) (height * maxHeight) + SAND_SIZE; // lowest point it should be drawn
+
         return random.nextInt(max-min) + min;
-    }
-
-    /**
-     * Check if the sand position will overlap with the water.
-     * If the sand overlaps water. it should generate a new position.
-     * @param water the water to compare positions to.
-     * @return True if a collision is detected.
-     */
-    public boolean checkDrawOverlapWater(Water water) {
-        float xDifference = water.getWaterTrueX() - sandTrueX; // Get the X difference
-        float yDifference = water.getWaterTrueY() - sandTrueY; // Get the Y difference
-        // Calculate the difference squared
-        float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
-        // Collision check
-        return distanceSquared < (size + size) * (sandSize + sandSize);
-    }
-
-    /**
-     * Use positions to check for a overlapping collision with target.
-     * If a collision is detected, sand should generate a new position.
-     * @return True if a collision is detected.
-     */
-    public boolean checkDrawOverlapTarget(Target target) {
-        float xDifference = target.getTargetTrueX() - sandTrueX; // Get the X difference
-        float yDifference = target.getTargetTrueY() - sandTrueY; // Get the Y difference
-        // Calculate the difference squared
-        float distanceSquared = xDifference  * xDifference  + yDifference * yDifference;
-        // Collision check
-        return distanceSquared < (size + size) * (sandSize + sandSize);
     }
 
     /**
@@ -154,19 +123,13 @@ public class Sand extends Decor {
      * @param canvas the object to draw the Sand object on.
      */
     @Override
-    public void onDraw(Canvas canvas) {
+    public void drawSprite(Canvas canvas) {
+        int sandColor = Color.YELLOW;
+
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(sandStartX, sandStartY, sandSize, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, SAND_SIZE, paint); // draw the target
     }
 
-    /**
-     * TODO
-     */
-    @Override
-    void onCollision() {
-        super.onCollision();
-        // TODO
-    }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 }
