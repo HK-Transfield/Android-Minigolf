@@ -23,6 +23,28 @@
         android:autoSizeTextType="uniform">
     </TextView>
 
+    <!-- Game over reason -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <!-- Game over reason text -->
+        <TextView
+            android:id="@+id/game_over_reason"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Reason goes here"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
     <!-- Score things -->
     <LinearLayout
         android:layout_width="match_parent"
