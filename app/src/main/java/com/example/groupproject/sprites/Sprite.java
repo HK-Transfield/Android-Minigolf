@@ -1,6 +1,8 @@
 package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 /**
  * This class is used to define any interactive object that is seen on
@@ -11,9 +13,11 @@ import android.graphics.Canvas;
  * @author Harmon Transfield, 1317381
  */
 abstract public class Sprite {
-    float startX, startY; // determines where the sprite where first be drawn on the screen
-    int size; // controls how large the sprite will be
-
+    protected float x;
+    protected float y; // determines where the sprite where first be drawn on the screen
+    protected Color color;
+    protected int size; // controls how large the sprite will be
+    protected final Paint paint = new Paint();
     /**
      * Draws a new sprite on the game screen.
      *

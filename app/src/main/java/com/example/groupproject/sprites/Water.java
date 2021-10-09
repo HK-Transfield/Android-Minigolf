@@ -16,9 +16,6 @@ public class Water extends Decor {
     private final int WATER_SIZE = 120; // needs to scale to screen size
 
     /* CLASS MEMBER VARIABLES */
-    private int waterColor = Color.BLUE; // colour
-    private float deviceWidth; // the width of the device
-    private float deviceHeight; // the height of the device
     private Target targetCurrent; // the current instance of target
 
     //region CONSTRUCTOR
@@ -29,8 +26,8 @@ public class Water extends Decor {
     public Water() {
         super();
         this.size = WATER_SIZE;
-        this.startX = this.initX;
-        this.startY = this.initY;
+        this.x = this.initX;
+        this.y = this.initY;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -48,8 +45,6 @@ public class Water extends Decor {
      */
     @Override
     public void setPosition(int width, int height) {
-        deviceWidth = width; // save the device width
-        deviceHeight = height; // save the device height
 
         // generate the initial position
         this.trueX = this.initX = generateX(width); // generate random x
@@ -58,10 +53,8 @@ public class Water extends Decor {
         // check for overlapping with target
         boolean overlapCheckTarget = checkDrawOverlap(targetCurrent);
 
-        if (overlapCheckTarget){
-            //waterColor = Color.MAGENTA; // Show that collision occurred *TEST STUFF*
+        if (overlapCheckTarget)
             this.setPosition(width, height);
-        }
     }
 
     /**
@@ -126,6 +119,9 @@ public class Water extends Decor {
      */
     @Override
     public void drawSprite(Canvas canvas) {
+        /* CLASS MEMBER VARIABLES */
+        // colour
+        int waterColor = Color.BLUE;
         paint.setColor(waterColor); // set the colour
         canvas.drawCircle(this.initX, this.initY, WATER_SIZE, paint); // draw the target
     }

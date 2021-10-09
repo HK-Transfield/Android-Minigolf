@@ -25,8 +25,8 @@ public class Target extends Decor {
     public Target() {
         super();
         this.size = TARGET_SIZE;
-        this.startX = this.initX;
-        this.startY = this.initY;
+        this.x = this.initX;
+        this.y = this.initY;
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
@@ -49,20 +49,20 @@ public class Target extends Decor {
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
+    //region GETTERS
+    /*--------------------------------------------------------------------------------------------*/
+
     /**
      * Get the X position of Target
      */
-    public float getTargetTrueX() {
-        return this.trueX;
-    }
+    protected float getTrueX() { return this.trueX; }
 
     /**
      * Get the Y position of Target
      */
-    public float getTargetTrueY() {
+    protected float getTrueY() {
         return this.trueY;
     }
-
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
@@ -89,7 +89,7 @@ public class Target extends Decor {
     @Override
     protected int generateY(int height) {
         int min = TARGET_SIZE; // highest point it should be drawn
-        int max = (int) (height * maxHeight); // lowest point it should be drawn
+        int max = (int) (height * minHeight); // lowest point it should be drawn
 
         return random.nextInt(max-min) + min;
     }
@@ -105,7 +105,7 @@ public class Target extends Decor {
         // colour
         int targetColor = Color.RED;
         paint.setColor(targetColor); // set the colour
-        canvas.drawCircle(initX, initY, TARGET_SIZE, paint); // draw the target
+        canvas.drawCircle(this.initX, this.initY, TARGET_SIZE, paint); // draw the target
     }
 
     /*--------------------------------------------------------------------------------------------*/

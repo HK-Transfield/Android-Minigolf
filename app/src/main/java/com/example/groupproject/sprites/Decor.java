@@ -10,10 +10,7 @@ import java.util.Random;
  * object, Decor objects randomize their position at the start of a round.
  */
 abstract public class Decor extends Sprite {
-
-    Paint paint = new Paint(); // paint to share
-    Random random = new Random(); // random number generator to share
-
+    protected Random random = new Random(); // random number generator to share
     protected static double minHeight = 0.2; // uppermost % of screen to spawn in (20%)
     protected static double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
     protected float initX = -200; // set initial x-axis offscreen

@@ -16,11 +16,9 @@ public class Sand extends Decor {
     private final int SAND_SIZE = 120; // needs to scale to screen size?
 
     /* CLASS MEMBER VARIABLES */
-    private int sandColor = Color.YELLOW; // the colour
-    private float deviceWidth; // the width of the device
-    private float deviceHeight; // the height of the device
     private Water waterCurrent; // the current instance of water
     private Target targetCurrent; // the current instance of target
+    private boolean hasBallHit = false; // checks if the ball has hit it in that round
 
     //region CONSTRUCTOR
     /*--------------------------------------------------------------------------------------------*/
@@ -30,8 +28,8 @@ public class Sand extends Decor {
     public Sand() {
         super();
         this.size = SAND_SIZE;
-        this.startX = this.initX; // randomly generate this
-        this.startY = this.initY; // randomly generate this
+        this.x = this.initX; // randomly generate this
+        this.y = this.initY; // randomly generate this
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -51,6 +49,12 @@ public class Sand extends Decor {
     protected float getTrueY() {
         return this.trueY;
     }
+
+    /**
+     * Get the current state of whether the ball has hit the Sand
+     */
+    public boolean getHasBallHit() { return hasBallHit; }
+
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
@@ -66,8 +70,7 @@ public class Sand extends Decor {
      */
     @Override
     public void setPosition(int width, int height) {
-        deviceWidth = width; // save the device width
-        deviceHeight = height; // save the device height
+        hasBallHit = false;
 
         // generate the initial position
         this.trueX = this.initX = generateX(width); // generate random x
@@ -76,32 +79,31 @@ public class Sand extends Decor {
         // check for overlapping with target
         boolean overlapCheck = checkDrawOverlap(targetCurrent) || checkDrawOverlap(waterCurrent);
 
-        if (overlapCheck) {
-            //sandColor = Color.BLACK; // Show that collision occurred *TEST STUFF*
-            Log.i("OVERLAP", "There is an overlap");
+        if (overlapCheck)
             this.setPosition(width, height);
-        }
     }
 
     /**
      * Get the current instance of water.
      */
-    public void setWaterCurrent(Water water) {
-        waterCurrent = water;
-    }
+    public void setWaterCurrent(Water water) { waterCurrent = water; }
 
     /**
      * Get the current instance of target.
      */
-    public void setTargetCurrent(Target target) {
-        targetCurrent = target;
-    }
+    public void setTargetCurrent(Target target) { targetCurrent = target; }
+
+    /**
+     * The ball has hit the sand
+     */
+    public void setHasBallHit() { hasBallHit = true; }
 
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
     //region METHODS
     /*--------------------------------------------------------------------------------------------*/
+
     /**
      * Generate a random X position within the playable area of the screen width.
      *
@@ -136,6 +138,9 @@ public class Sand extends Decor {
      */
     @Override
     public void drawSprite(Canvas canvas) {
+
+        // the colour
+        int sandColor = Color.YELLOW;
         paint.setColor(sandColor); // set the colour
         canvas.drawCircle(this.initX, this.initY, SAND_SIZE, paint); // draw the target
     }
