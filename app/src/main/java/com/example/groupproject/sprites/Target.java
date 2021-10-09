@@ -76,7 +76,7 @@ public class Target extends Decor {
      */
     @Override
     protected int generateY(int height) {
-        int min = TARGET_SIZE; // highest point it should be drawn
+        int min = TARGET_SIZE * 3; // highest point it should be drawn
         int max = (int) (height * minHeight); // lowest point it should be drawn
         return random.nextInt(max-min) + min;
     }
