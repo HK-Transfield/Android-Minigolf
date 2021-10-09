@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
             scoreTextView.setText(String.valueOf(score));
 
             if (golfBall.getMovesLeft() == 0)
-                endGame();
+                endGame(0);
 
             target.drawSprite(canvas);
             water.drawSprite(canvas);
@@ -95,7 +95,7 @@ public class GameActivity extends AppCompatActivity {
             golfBall.drawSprite(canvas);
 
             if(water.collisionCheck(golfBall.getX(), golfBall.getY()))
-                endGame();
+                endGame(1);
 
             if(sand.collisionCheck(golfBall.getX(), golfBall.getY())) {
                 if(!sand.getHasBallHit()) {
@@ -120,10 +120,18 @@ public class GameActivity extends AppCompatActivity {
             invalidate();
         }
 
-
-        private void endGame() {
+        /**
+         * @param reason The reason to end the game. 1 = water, 0 = 0 moves left
+         */
+        private void endGame(int reason) {
             this.setWillNotDraw(true);
             Intent gameOver = new Intent(getContext(), GameOverActivity.class);
+            if (reason == 0){
+                gameOver.putExtra("gameOverReason", "Ran out of moves"); // give the reason
+            }
+            else {
+                gameOver.putExtra("gameOverReason", "Ball in the water"); // give the reason
+            }
             startActivity(gameOver);
         }
 
