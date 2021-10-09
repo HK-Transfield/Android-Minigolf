@@ -14,15 +14,16 @@ import android.graphics.Paint;
 public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
+    private final int defaultColor = Color.WHITE; // default color of ball
     private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
+    private final int MAX_MOVES = 3;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
     /* CLASS MEMBER VARIABLES */
-    private int defaultColor = Color.WHITE; // default color of ball
     private int travelTime = 0; // how long the ball has travelled for
-    private int movesLeft = 3; // the number of moves the ball can make
+    private int movesLeft = MAX_MOVES; // the number of moves the ball can make
     private float velocityX = 0; // current ball velocity along x-axis
     private float velocityY = 0; // current ball velocity along y-axis
     private float finalVelocity; // the fastest speed the ball can move
@@ -59,8 +60,7 @@ public class Ball extends Sprite {
     public void setPosition(int width, int height) {
 
         // reset the number of moves
-        int maxMoves = 3;
-        movesLeft = maxMoves;
+        movesLeft = MAX_MOVES;
 
         // calculate the size of 1 section of the grid
         float gridX = (float)(width / 3);
