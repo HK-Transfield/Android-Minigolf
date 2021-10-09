@@ -32,14 +32,6 @@ public class HighscoreActivity extends AppCompatActivity {
         // set adapter
         listViewNum.setAdapter(arrayAdapterRanks);
 
-        // string array to retrieve high score names
-        String[] nameList = new String[]{"-","-","-","-","-"};
-        // array adapter to populate the list view
-        ArrayAdapter<String> arrayAdapterNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nameList);
-        // the list view
-        ListView listViewName = (ListView)findViewById(R.id.highscore_list_names);
-        // set adapter
-        listViewName.setAdapter(arrayAdapterNames);
 
         // int array to retrieve high score values
         Integer[] int_scores = new Integer[]{0,0,0,0,0};
@@ -51,12 +43,10 @@ public class HighscoreActivity extends AppCompatActivity {
         listViewScore.setAdapter(arrayAdapterScores);
 
         // remove horizontal dividers from listviews / no grid mode
-        listViewName.setDividerHeight(0);
         listViewNum.setDividerHeight(0);
         listViewScore.setDividerHeight(0);
 
         // disable visual feedback when clicking on the high score lists
-        listViewName.setEnabled(false);
         listViewNum.setEnabled(false);
         listViewScore.setEnabled(false);
     }
