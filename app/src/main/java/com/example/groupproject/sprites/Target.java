@@ -20,7 +20,6 @@ public class Target extends Decor {
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int TARGET_SIZE = 60; // needs to scale to screen size
     private Context context;
-    private final Bitmap flagImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.flag);
     private final int xOffset = 30;
     private final int yOffset = 160;
 
@@ -95,6 +94,7 @@ public class Target extends Decor {
         paint.setColor(targetColor); // set the colour
         canvas.drawCircle(this.x, this.y, TARGET_SIZE, paint); // draw the target
         // draw the image
+        Bitmap flagImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.flag);
         canvas.drawBitmap(flagImage, this.x - xOffset
                 , this.y - yOffset, paint);
     }

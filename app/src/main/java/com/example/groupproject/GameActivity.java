@@ -49,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
             golfBall = new Ball(BALL_SIZE);
             target = new Target(context);
             sand = new Sand();
-            water = new Water();
+            water = new Water(context);
             gd = new GestureDetector(context, new MyGestureListener());
         }
 
