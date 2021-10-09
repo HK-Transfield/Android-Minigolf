@@ -13,18 +13,14 @@ import android.graphics.Paint;
 public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-
     private final int MAX_TIME = 30; // seconds (t)
     private final float MAX_VELOCITY = 80;
-    private final int MAX_MOVES = 3;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
     /* CLASS MEMBER VARIABLES */
     private int travelTime = 0; // how long the ball has travelled for
     private int movesLeft = 3;
-    private float x = 0; // change along x-axis
-    private float y = 0; // change along y-axis
     private float velocityX = 0; // current ball velocity along x-axis
     private float velocityY = 0; // current ball velocity along y-axis
     private float finalVelocity;
@@ -33,7 +29,7 @@ public class Ball extends Sprite {
     private float swipedY; // y-axis of where the screen was touched
     private float stationaryX; // stationary position along x-axis
     private float stationaryY; // stationary position along y-axis
-    private boolean collidedX = false;
+    private boolean collidedX = false; // the ball has touched top or bottom edge
     private boolean colliedY = false; // the ball has touched left or right edge
 
     /**
@@ -44,8 +40,8 @@ public class Ball extends Sprite {
      */
     public Ball(int color, int size) {
         this.size = size;
+        this.paint.setColor(color);
         finalVelocity = MAX_VELOCITY;
-        paint.setColor(color);
     }
 
     //region SETTERS
@@ -62,15 +58,18 @@ public class Ball extends Sprite {
     public void setPosition(int width, int height) {
 
         // reset the number of moves
-        movesLeft = MAX_MOVES;
+        int maxMoves = 3;
+        movesLeft = maxMoves;
 
         // calculate the size of 1 section of the grid
         float gridX = (float)(width / 3);
         float gridY = (float)(height / 3);
 
+        // reset speed and time of the ball
         finalTime = MAX_TIME;
         finalVelocity = MAX_VELOCITY;
 
+        // move ball to complete stop
         this.stop();
 
         // calculate the starting position of the ball and save it
@@ -100,22 +99,6 @@ public class Ball extends Sprite {
         // set where the user swiped
         swipedX = sX;
         swipedY = sY;
-    }
-
-    public void reduceVelocity(int color) {
-        paint.setColor(color);
-        finalVelocity = 30;
-        finalTime = 10;
-        movesLeft--;
-        stop();
-    }
-
-    private void stop() {
-        travelTime = 0;
-        velocityY = 0;
-        velocityX = 0;
-        swipedX = 0;
-        swipedY = 0;
     }
 
 
@@ -172,14 +155,12 @@ public class Ball extends Sprite {
 
             // make the ball stationary and save its current position
             if(velocityX <= 0) {
-                velocityX = 0;
                 stationaryX = x;
-                swipedX = 0;
+                velocityX = swipedX = 0;
             }
             if(velocityY <= 0) {
-                velocityY = 0;
                 stationaryY = y;
-                swipedY = 0;
+                velocityY = swipedY = 0;
             }
             if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
                 // player used up a move
@@ -230,6 +211,31 @@ public class Ball extends Sprite {
         else return -acceleration;
     }
 
+    /**
+     * An effect on the ball where it will slow down to a slower speed
+     *
+     * @param slowedColor The new colour the ball will take to reflect slow down speed
+     */
+    public void reduceVelocity(int slowedColor) {
+        this.paint.setColor(slowedColor);
+        finalVelocity = 30;
+        finalTime = 10;
+        movesLeft--;
+        stop();
+    }
+
+    /**
+     * This will make the ball come to a complete stop. Allowing the
+     * user to interact with it again.
+     */
+    private void stop() {
+        travelTime = 0;
+        velocityY = 0;
+        velocityX = 0;
+        swipedX = 0;
+        swipedY = 0;
+    }
+
     /*--------------------------------------------------------------------------------------------*/
     //endregion
 
@@ -258,11 +264,6 @@ public class Ball extends Sprite {
      */
     private boolean hasCollided(float axis, float screenEdge) {
         return axis - size < 0 || axis + size > screenEdge;
-    }
-
-    // TODO: Maybe put the code for detectCollision() here?
-    public boolean collisionCheck() {
-        return false;
     }
 
     /*--------------------------------------------------------------------------------------------*/

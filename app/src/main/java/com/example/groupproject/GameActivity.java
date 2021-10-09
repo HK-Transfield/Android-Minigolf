@@ -100,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
                 if(!sand.getHasBallHit()) {
                     sand.setHasBallHit();
                     golfBall.setGesture(0, 0);
-                    golfBall.reduceVelocity(R.color.sandYellow);
+                    golfBall.reduceVelocity(getColor(R.color.sandYellow));
                 }
             }
 
