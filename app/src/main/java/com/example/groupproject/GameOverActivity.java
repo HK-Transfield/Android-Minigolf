@@ -44,15 +44,10 @@ public class GameOverActivity extends AppCompatActivity {
 
         // retrieve the high scores
         int score1 = myScores.getInt("score1",0);
-        Log.i("TAG", "SAVED score 1 = " + score1);
         int score2 = myScores.getInt("score2",0);
-        Log.i("TAG", "SAVED score 2 = " + score2);
         int score3 = myScores.getInt("score3",0);
-        Log.i("TAG", "SAVED score 3 = " + score3);
         int score4 = myScores.getInt("score4",0);
-        Log.i("TAG", "SAVED score 4 = " + score4);
         int score5 = myScores.getInt("score5",0);
-        Log.i("TAG", "SAVED score 5 = " + score5);
 
         // TODO USE to reset the high scores
 /*        int reset = 0;
@@ -63,7 +58,7 @@ public class GameOverActivity extends AppCompatActivity {
         editor.putInt("score5", reset );*/
 
         // an array to hold & sort the scores
-        List<Integer> scoreList = new ArrayList<Integer>();
+        List<Integer> scoreList = new ArrayList<>();
         // add the saved scores
         scoreList.add(score1);
         scoreList.add(score2);
@@ -122,7 +117,7 @@ public class GameOverActivity extends AppCompatActivity {
                     editor.commit(); //save
                 }
                 // # 5
-                else if (i == 4){
+                else {
                     editor.putInt("score5", playerScore); // new # 5
                     editor.commit(); //save
                 }
