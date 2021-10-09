@@ -1,8 +1,12 @@
 package com.example.groupproject.sprites;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.Log;
+
+import com.example.groupproject.R;
 
 /**
  * This class is used to display a Sand obstacle in the game.
@@ -13,7 +17,10 @@ import android.util.Log;
 public class Sand extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int SAND_SIZE = 120; // needs to scale to screen size?
+    private final int SAND_SIZE = 80; // needs to scale to screen size?
+    private Context context;
+    private final int xOffset = 120;
+    private final int yOffset = 120;
 
     /* CLASS MEMBER VARIABLES */
     private Water waterCurrent; // the current instance of water
@@ -25,9 +32,10 @@ public class Sand extends Decor {
     /**
      * Constructor, instantiates a new Sand object
      */
-    public Sand() {
+    public Sand(Context c) {
         super();
         this.size = SAND_SIZE;
+        context =  c;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -127,7 +135,11 @@ public class Sand extends Decor {
         int sandColor = Color.YELLOW;
 
         paint.setColor(sandColor); // set the colour
-        canvas.drawCircle(this.x, this.y, SAND_SIZE, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, SAND_SIZE, paint); // draw the sand
+        // draw the image
+        Bitmap sandImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.sand);
+        canvas.drawBitmap(sandImage, this.x - xOffset
+                , this.y - yOffset, paint);
     }
 
     /*--------------------------------------------------------------------------------------------*/

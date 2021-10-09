@@ -18,7 +18,7 @@ import com.example.groupproject.R;
 public class Water extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int WATER_SIZE = 70; // needs to scale to screen size
+    private final int WATER_SIZE = 80; // needs to scale to screen size
     private Context context;
     private final int xOffset = 120;
     private final int yOffset = 120;
@@ -113,11 +113,11 @@ public class Water extends Decor {
         // colour
         int waterColor = Color.BLUE;
         paint.setColor(waterColor); // set the colour
+        canvas.drawCircle(this.x, this.y, WATER_SIZE, paint); // draw the water
         // draw the image
         Bitmap waterImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
         canvas.drawBitmap(waterImage, this.x - xOffset
                 , this.y - yOffset, paint);
-        canvas.drawCircle(this.x, this.y, WATER_SIZE, paint); // draw the water
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion
