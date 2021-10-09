@@ -122,6 +122,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         private void endGame() {
+            this.setWillNotDraw(true);
             Intent gameOver = new Intent(getContext(), GameOverActivity.class);
             startActivity(gameOver);
         }
