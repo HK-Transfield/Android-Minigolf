@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
         public GraphicsView(Context context) {
             super(context);
             golfBall = new Ball(BALL_SIZE);
-            target = new Target();
+            target = new Target(context);
             sand = new Sand();
             water = new Water();
             gd = new GestureDetector(context, new MyGestureListener());
