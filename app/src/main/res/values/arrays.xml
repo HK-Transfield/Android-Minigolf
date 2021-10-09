@@ -7,12 +7,4 @@
         <item>4th</item>
         <item>5th</item>
     </string-array>
-
-    <string-array name="string_array_highscore_names">
-        <item>Billy</item>
-        <item>Bobby</item>
-        <item>Barry</item>
-        <item>Becky</item>
-        <item>Benny</item>
-    </string-array>
 </resources>
