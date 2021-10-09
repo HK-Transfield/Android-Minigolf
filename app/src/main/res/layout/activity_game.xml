@@ -69,7 +69,6 @@
                 android:id="@+id/gamescreen_moves_left_value"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/moves_left_value"
                 android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_margin="5dp"
@@ -77,35 +76,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- ***TEMPORARY NAVIGATION BUTTONS -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_graphics"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gamescreen_background"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
-
-        <!-- GO TO MAIN -->
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:autoSizeTextType="uniform"
-            android:text="MAIN"
-            android:onClick="onclickMainScreen">
-        </Button>
-
-        <!-- GO TO GAME OVER -->
-        <Button
-            android:id="@+id/button_to_gameover"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="GAMEOVER"
-            android:autoSizeTextType="uniform"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:onClick="onclickGameOverScreen">
-        </Button>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"/>
 </RelativeLayout>
