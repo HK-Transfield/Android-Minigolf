@@ -126,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
         private void endGame(int reason) {
             this.setWillNotDraw(true);
             Intent gameOver = new Intent(getContext(), GameOverActivity.class);
+            gameOver.putExtra("score", score); // pass the score
             if (reason == 0){
                 gameOver.putExtra("gameOverReason", "Ran out of moves"); // give the reason
             }
