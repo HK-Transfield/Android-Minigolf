@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,15 +30,6 @@ public class HighscoreActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
-        // string array to retrieve high score rank positions
-        String[] numList = getResources().getStringArray(R.array.string_array_highscore_numbers);
-        // array adapter to populate the list view
-        ArrayAdapter<String> arrayAdapterRanks = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, numList);
-        // the list view
-        ListView listViewNum = (ListView)findViewById(R.id.highscore_list_numbers);
-        // set adapter
-        listViewNum.setAdapter(arrayAdapterRanks);
-
         // declare shared preferences
         SharedPreferences myScores = getSharedPreferences("scores", Context.MODE_PRIVATE);
 
@@ -47,32 +40,20 @@ public class HighscoreActivity extends AppCompatActivity {
         int score4 = myScores.getInt("score4",0);
         int score5 = myScores.getInt("score5",0);
 
-        // an array to hold & sort the scores
-        List<Integer> scoreList = new ArrayList<Integer>();
-        // add the saved scores
-        scoreList.add(score1);
-        scoreList.add(score2);
-        scoreList.add(score3);
-        scoreList.add(score4);
-        scoreList.add(score5);
+        TextView first = findViewById(R.id.score_first); // get text view
+        first.setText(String.valueOf(score1)); // set the score text
 
-        Collections.sort(scoreList); // sort the list
-        Collections.reverse(scoreList); // sort by small first
+        TextView second = findViewById(R.id.score_second); // get text view
+        second.setText(String.valueOf(score2)); // set the score text
 
-        // array adapter to populate the list view
-        ArrayAdapter<Integer> arrayAdapterScores = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scoreList);
-        // the list view
-        ListView listViewScore = (ListView)findViewById(R.id.highscore_list_values);
-        // set adapter
-        listViewScore.setAdapter(arrayAdapterScores);
+        TextView third = findViewById(R.id.score_third); // get text view
+        third.setText(String.valueOf(score3)); // set the score text
 
-        // remove horizontal dividers from listviews / no grid mode
-        listViewNum.setDividerHeight(0);
-        listViewScore.setDividerHeight(0);
+        TextView fourth = findViewById(R.id.score_fourth); // get text view
+        fourth.setText(String.valueOf(score4)); // set the score text
 
-        // disable visual feedback when clicking on the high score lists
-        listViewNum.setEnabled(false);
-        listViewScore.setEnabled(false);
+        TextView fifth = findViewById(R.id.score_fifth); // get text view
+        fifth.setText(String.valueOf(score5)); // set the score text
     }
 
     // When Play Again button is clicked, go to game screen
