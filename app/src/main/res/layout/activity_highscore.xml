@@ -170,7 +170,6 @@
         android:textColor="#3E3E3E"
         android:layout_margin="50dp"
         android:onClick="onclickGameStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:background="@drawable/wall2">
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline">
     </Button>
 </LinearLayout>
