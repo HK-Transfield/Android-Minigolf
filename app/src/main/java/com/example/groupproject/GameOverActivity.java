@@ -1,5 +1,4 @@
 package com.example.groupproject;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +29,13 @@ public class GameOverActivity extends AppCompatActivity {
         String reason = bundle.getString("gameOverReason"); // get the game over reason
         TextView reasonText = findViewById(R.id.game_over_reason); // get reason textview
         reasonText.setText(reason); // set reason text
+
+        // if game over reason is water
+        if (reason.equals("Ball in the water")){
+            // get the background
+            LinearLayout fullBackground = findViewById(R.id.gameover_background);
+            fullBackground.setBackgroundResource(R.drawable.tiled_water);
+        }
 
         int playerScore = bundle.getInt("score"); // get the score from game activity
         TextView scoreText = findViewById(R.id.gameover_score_value); // get score textview
