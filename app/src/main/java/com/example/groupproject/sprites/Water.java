@@ -1,7 +1,12 @@
 package com.example.groupproject.sprites;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+
+import com.example.groupproject.R;
 
 /**
  * This class is used to display a Water obstacle in the game.
@@ -13,7 +18,10 @@ import android.graphics.Color;
 public class Water extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int WATER_SIZE = 120; // needs to scale to screen size
+    private final int WATER_SIZE = 80; // needs to scale to screen size
+    private Context context;
+    private final int xOffset = 120;
+    private final int yOffset = 120;
 
     /* CLASS MEMBER VARIABLES */
     private Target targetCurrent; // the current instance of target
@@ -23,9 +31,10 @@ public class Water extends Decor {
     /**
      * Constructor, instantiates a new Water object
      */
-    public Water() {
+    public Water(Context c) {
         super();
         this.size = WATER_SIZE;
+        context = c;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -104,7 +113,11 @@ public class Water extends Decor {
         // colour
         int waterColor = Color.BLUE;
         paint.setColor(waterColor); // set the colour
-        canvas.drawCircle(this.x, this.y, WATER_SIZE, paint); // draw the target
+        canvas.drawCircle(this.x, this.y, WATER_SIZE, paint); // draw the water
+        // draw the image
+        Bitmap waterImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
+        canvas.drawBitmap(waterImage, this.x - xOffset
+                , this.y - yOffset, paint);
     }
     /*--------------------------------------------------------------------------------------------*/
     //endregion

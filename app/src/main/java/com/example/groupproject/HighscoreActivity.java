@@ -3,11 +3,18 @@ package com.example.groupproject;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class HighscoreActivity extends AppCompatActivity {
 
@@ -23,31 +30,30 @@ public class HighscoreActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         getWindow().getDecorView().setSystemUiVisibility(uiOptions);
 
-        // string array to retrieve high score rank numbers
-        String[] numList = getResources().getStringArray(R.array.string_array_highscore_numbers);
-        // array adapter to populate the list view
-        ArrayAdapter<String> arrayAdapterRanks = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, numList);
-        // the list view
-        ListView listViewNum = (ListView)findViewById(R.id.highscore_list_numbers);
-        // set adapter
-        listViewNum.setAdapter(arrayAdapterRanks);
+        // declare shared preferences
+        SharedPreferences myScores = getSharedPreferences("scores", Context.MODE_PRIVATE);
 
-        // string array to retrieve high score names
-        String[] nameList = getResources().getStringArray(R.array.string_array_highscore_names);
-        // array adapter to populate the list view
-        ArrayAdapter<String> arrayAdapterNames = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nameList);
-        // the list view
-        ListView listViewName = (ListView)findViewById(R.id.highscore_list_names);
-        // set adapter
-        listViewName.setAdapter(arrayAdapterNames);
+        // retrieve the high scores
+        int score1 = myScores.getInt("score1",0);
+        int score2 = myScores.getInt("score2",0);
+        int score3 = myScores.getInt("score3",0);
+        int score4 = myScores.getInt("score4",0);
+        int score5 = myScores.getInt("score5",0);
 
-        // remove horizontal dividers from listviews / no grid mode
-        listViewName.setDividerHeight(0);
-        listViewNum.setDividerHeight(0);
+        TextView first = findViewById(R.id.score_first); // get text view
+        first.setText(String.valueOf(score1)); // set the score text
 
-        // disable visual feedback when clicking on the high score lists
-        listViewName.setEnabled(false);
-        listViewNum.setEnabled(false);
+        TextView second = findViewById(R.id.score_second); // get text view
+        second.setText(String.valueOf(score2)); // set the score text
+
+        TextView third = findViewById(R.id.score_third); // get text view
+        third.setText(String.valueOf(score3)); // set the score text
+
+        TextView fourth = findViewById(R.id.score_fourth); // get text view
+        fourth.setText(String.valueOf(score4)); // set the score text
+
+        TextView fifth = findViewById(R.id.score_fifth); // get text view
+        fifth.setText(String.valueOf(score5)); // set the score text
     }
 
     // When Play Again button is clicked, go to game screen

@@ -17,4 +17,10 @@
     <string name="str_btn_start">Play</string>
     <string name="str_btn_high_score">High Scores</string>
     <string name="high_scores_title">High Scores</string>
+    <string name="nil">- - -</string>
+    <string name="blue_ribbon">blue ribbon</string>
+    <string name="red_ribbon">red ribbon</string>
+    <string name="bronze_trophy">bronze trophy</string>
+    <string name="silver_trophy">silver trophy</string>
+    <string name="gold_trophy">gold trophy</string>
 </resources>
