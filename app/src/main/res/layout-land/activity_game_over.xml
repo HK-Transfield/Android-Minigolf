@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameOverActivity"
+    android:orientation="vertical"
+    android:background="@drawable/tiled_grass"
+    android:id="@+id/gameover_background">
+
+    <!-- Title and Reason -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Game over title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:text="@string/game_over_screen_title"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/darkGray">
+        </TextView>
+
+        <!-- Game over reason text -->
+        <TextView
+            android:id="@+id/game_over_reason"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Reason goes here"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/darkGray" />
+    </LinearLayout>
+
+    <!-- Score Info & Buttons Holder -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- Score Info Holder-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <!-- Titles Holder -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Score title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/your_score_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkGray"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_weight="1"
+                    android:layout_margin="20dp">
+                </TextView>
+
+                <!-- High scores rank title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/high_score_rank_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkGray"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_weight="1"
+                    android:layout_margin="20dp">
+                </TextView>
+
+            </LinearLayout>
+
+            <!-- Values Holder -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Score Value -->
+                <TextView
+                    android:id="@+id/gameover_score_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/player_score_value"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkGray"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_weight="1"
+                    android:layout_margin="20dp">
+                </TextView>
+
+                <!-- High score rank value -->
+                <TextView
+                    android:id="@+id/gameover_highscore_rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/player_rank_text"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkGray"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_weight="1"
+                    android:layout_margin="20dp">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Buttons holder -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!-- High scores button -->
+            <Button
+                android:id="@+id/button_hiscores"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/high_scores_button_text"
+                android:onClick="onclickHighscoreScreen"
+                android:textColor="#3E3E3E"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_margin="10dp">
+            </Button>
+
+            <!-- Play again button -->
+            <Button
+                android:id="@+id/button_play_again"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/play_again_button_text"
+                android:onClick="onclickPlayAgain"
+                android:textColor="@color/darkGray"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_margin="10dp">
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
