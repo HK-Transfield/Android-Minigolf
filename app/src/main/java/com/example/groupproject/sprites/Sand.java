@@ -13,6 +13,9 @@ import com.example.groupproject.R;
  * Collision with the Sand is defined by 50% of the Ball
  * overlapping with the Sand. When a collision with the
  * Sand is detected, the ball will slow.
+ *
+ * #### Image source:
+ * https://opengameart.org/content/lpc-sandrock-alt-colors
  */
 public class Sand extends Decor {
 

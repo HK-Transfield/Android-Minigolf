@@ -13,7 +13,8 @@ import com.example.groupproject.R;
  * Ball overlapping with the Target. When a collision with the Target
  * is achieved, the round ends.
  *
- * @author Wednesday Wilson
+ * #### Image source:
+ * https://pixabay.com/vectors/golf-sport-flag-hole-red-307612/
  */
 public class Target extends Decor {
 
