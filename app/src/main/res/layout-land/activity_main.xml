@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="horizontal">
+
+    <!--App Title & Dev Names -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <!--App Title -->
+        <ImageView
+            android:id="@+id/game_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/game_title"
+            android:scaleType="centerCrop"
+            android:src="@drawable/title"
+            android:layout_weight="2"
+            android:layout_margin="30dp"/>
+
+        <!--Dev names -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/developers"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2">
+
+        <!-- Play button-->
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeTextType="uniform"
+            android:onClick="onclickGameStart"
+            android:text="@string/str_btn_start"
+            app:layout_constraintBottom_toTopOf="@id/button_high_scores"
+            android:layout_weight="1"
+            android:layout_margin="40dp"/>
+
+        <!-- Highscores button-->
+        <Button
+            android:id="@+id/button_high_scores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/str_btn_high_score"
+            android:autoSizeTextType="uniform"
+            android:layout_weight="1"
+            android:onClick="onclickHighscoreScreen"
+            android:layout_margin="40dp"/>
+    </LinearLayout>
+</LinearLayout>

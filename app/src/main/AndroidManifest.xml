@@ -11,7 +11,8 @@
         android:theme="@style/Theme.GroupProject">
         <activity android:name=".HighscoreActivity" />
         <activity android:name=".GameOverActivity" />
-        <activity android:name=".GameActivity" />
+        <activity android:name=".GameActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
