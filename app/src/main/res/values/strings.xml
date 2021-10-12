@@ -23,4 +23,5 @@
     <string name="bronze_trophy">bronze trophy</string>
     <string name="silver_trophy">silver trophy</string>
     <string name="gold_trophy">gold trophy</string>
+    <string name="reason_goes_here">Reason goes here</string>
 </resources>
