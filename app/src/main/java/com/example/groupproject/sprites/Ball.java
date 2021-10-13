@@ -2,7 +2,6 @@ package com.example.groupproject.sprites;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 
 /**
  * This is an interactive sprite the user can directly interact
@@ -14,20 +13,20 @@ import android.graphics.Paint;
 public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    private final int defaultColor = Color.WHITE; // default color of ball
+    private final int DEFAULT_COLOR = Color.WHITE; // default color of ball
     private final int MAX_TIME = 20; // seconds (t)
     private final float MAX_VELOCITY = 65;
-    private final int MAX_MOVES = 4;
+    private final int MAX_MOVES = 3;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
     /* CLASS MEMBER VARIABLES */
     private int travelTime = 0; // how long the ball has travelled for
+    private int finalTime = MAX_TIME; // the max travel time the ball will travel
     private int movesLeft = MAX_MOVES; // the number of moves the ball can make
     private float velocityX = 0; // current ball velocity along x-axis
     private float velocityY = 0; // current ball velocity along y-axis
     private float finalVelocity; // the fastest speed the ball can move
-    private int finalTime = MAX_TIME; // the max travel time the ball will travel
     private float swipedX; // x-axis of where the screen was touched
     private float swipedY; // y-axis of where the screen was touched
     private float stationaryX; // stationary position along x-axis
@@ -42,7 +41,7 @@ public class Ball extends Sprite {
      */
     public Ball(int size) {
         this.size = size;
-        this.paint.setColor(defaultColor);
+        this.paint.setColor(DEFAULT_COLOR);
         finalVelocity = MAX_VELOCITY;
     }
 
@@ -72,7 +71,7 @@ public class Ball extends Sprite {
 
         // move ball to complete stop and restore colour
         this.stop();
-        this.paint.setColor(defaultColor);
+        this.paint.setColor(DEFAULT_COLOR);
 
         // calculate the starting position of the ball and save it
         x = stationaryX = (float)(width / 2);
@@ -145,6 +144,8 @@ public class Ball extends Sprite {
             if (hasCollided(x, gridXArr[2])) collidedX = !collidedX;
             if (hasCollided(y, gridYArr[2])) colliedY = !colliedY;
 
+            if (collidedX || colliedY) finalTime = 15; // if it has hit a wall, slow it down
+
             // move the circle
             x += velocityX * direction(swipedX, stationaryX, collidedX);
             y += velocityY * direction(swipedY, stationaryY, colliedY);
@@ -153,18 +154,24 @@ public class Ball extends Sprite {
             velocityX += acceleration(velocityX);
             velocityY += acceleration(velocityY);
 
-            // make the ball stationary and save its current position
+            // stop moving in the y position
             if(velocityX <= 0) {
                 stationaryX = x;
                 velocityX = swipedX = 0;
             }
+
+            // stop moving in the y position
             if(velocityY <= 0) {
                 stationaryY = y;
                 velocityY = swipedY = 0;
             }
-            if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0)
-                // player used up a move
+
+            // ball has finished moving
+            if(stationaryX == x && stationaryY == y && velocityX == 0 && velocityY == 0) {
+                stop(); // make sure everything has stopped
+                finalTime = MAX_TIME;
                 movesLeft--;
+            }
             travelTime++;
         }
         canvas.drawCircle(x, y, size, paint);
@@ -219,8 +226,8 @@ public class Ball extends Sprite {
     public void reduceVelocity(int slowedColor) {
         setGesture(0,0);
         this.paint.setColor(slowedColor);
-        finalVelocity = 30;
-        finalTime = 10;
+        finalVelocity = 15;
+        finalTime = 30;
         movesLeft--;
         stop();
     }
