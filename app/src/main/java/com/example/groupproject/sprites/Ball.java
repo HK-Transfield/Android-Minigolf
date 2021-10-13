@@ -217,6 +217,7 @@ public class Ball extends Sprite {
      * @param slowedColor The new colour the ball will take to reflect slow down speed
      */
     public void reduceVelocity(int slowedColor) {
+        setGesture(0,0);
         this.paint.setColor(slowedColor);
         finalVelocity = 30;
         finalTime = 10;
