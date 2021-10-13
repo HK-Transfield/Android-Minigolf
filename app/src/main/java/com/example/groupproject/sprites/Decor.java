@@ -1,7 +1,7 @@
 package com.example.groupproject.sprites;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.content.Context;
+
 import java.util.Random;
 
 /**
@@ -20,6 +20,9 @@ abstract public class Decor extends Sprite {
     protected static double maxHeight = 0.7; // lowest % of screen to spawn in (70%)
     protected float trueX;
     protected float trueY;
+    protected Context context;
+    protected int xOffset = 120;
+    protected int yOffset = 120;
 
     /**
      * Constructor

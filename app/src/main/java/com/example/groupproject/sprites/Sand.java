@@ -21,9 +21,6 @@ public class Sand extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int SAND_SIZE = 80; // needs to scale to screen size?
-    private Context context;
-    private final int xOffset = 120;
-    private final int yOffset = 120;
 
     /* CLASS MEMBER VARIABLES */
     private Water waterCurrent; // the current instance of water
@@ -38,7 +35,7 @@ public class Sand extends Decor {
     public Sand(Context c) {
         super();
         this.size = SAND_SIZE;
-        context =  c;
+        this.context =  c;
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -141,8 +138,8 @@ public class Sand extends Decor {
         canvas.drawCircle(this.x, this.y, SAND_SIZE, paint); // draw the sand
         // draw the image
         Bitmap sandImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.sand);
-        canvas.drawBitmap(sandImage, this.x - xOffset
-                , this.y - yOffset, paint);
+        canvas.drawBitmap(sandImage, this.x - this.xOffset
+                , this.y - this.yOffset, paint);
     }
 
     /*--------------------------------------------------------------------------------------------*/
