@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GroupProject</string>
+    <string name="app_name">Mini Golf</string>
     <string name="your_score_title">Your Score:</string>
     <string name="player_score_value">00000</string>
     <string name="game_over_screen_title">Game Over!</string>
@@ -23,4 +23,5 @@
     <string name="bronze_trophy">bronze trophy</string>
     <string name="silver_trophy">silver trophy</string>
     <string name="gold_trophy">gold trophy</string>
+    <string name="reason_goes_here">Reason goes here</string>
 </resources>

@@ -12,7 +12,7 @@ import java.util.Random;
 abstract public class Decor extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
-    protected final float INITIAL_POSITION = -200; // set initial x-axis offscreen
+    protected final float INITIAL_POSITION = -100; // set initial x-axis offscreen
 
     /* CLASS MEMBER VARIABLES */
     protected Random random = new Random(); // random number generator to share

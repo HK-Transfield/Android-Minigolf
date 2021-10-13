@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+#### Image source:
+https://opengameart.org/content/seamless-grass-texture-ii
+-->
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
     android:src="@drawable/grass"
     android:tileMode="repeat">

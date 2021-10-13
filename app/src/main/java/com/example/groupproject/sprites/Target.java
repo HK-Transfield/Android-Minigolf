@@ -13,15 +13,16 @@ import com.example.groupproject.R;
  * Ball overlapping with the Target. When a collision with the Target
  * is achieved, the round ends.
  *
- * @author Wednesday Wilson
+ * #### Image source:
+ * https://pixabay.com/vectors/golf-sport-flag-hole-red-307612/
  */
 public class Target extends Decor {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int TARGET_SIZE = 60; // needs to scale to screen size
     private Context context;
-    private final int xOffset = 30;
-    private final int yOffset = 160;
+    private final int xOffset = 35;
+    private final int yOffset = 130;
 
     //region CONSTRUCTOR
     /*--------------------------------------------------------------------------------------------*/
@@ -76,7 +77,7 @@ public class Target extends Decor {
      */
     @Override
     protected int generateY(int height) {
-        int min = TARGET_SIZE * 3; // highest point it should be drawn
+        int min = TARGET_SIZE * 2; // highest point it should be drawn
         int max = (int) (height * minHeight); // lowest point it should be drawn
         return random.nextInt(max-min) + min;
     }

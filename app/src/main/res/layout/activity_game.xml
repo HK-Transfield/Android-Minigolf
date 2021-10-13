@@ -6,29 +6,31 @@
     android:background="@drawable/tiled_wall"
     android:id="@+id/gamescreen_fullscreen">
 
-    <!-- Game screen interactive area -->
-    <ImageView
-        android:id="@+id/gamescreen_background"
+    <!-- Main FULL linear layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@drawable/grass"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/image_desc_grass" />
+        android:orientation="vertical">
 
-    <!-- Text for score & moves left -->
+    <!-- Horizontal layout for game text -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
         android:baselineAligned="false">
+
+        <!-- Score text -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1" >
 
+            <!-- Score Title -->
             <TextView
                 android:id="@+id/gamescreen_score_title"
                 android:layout_width="0dp"
@@ -39,6 +41,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1" />
 
+            <!-- Score value text -->
             <TextView
                 android:id="@+id/gamescreen_score_value"
                 android:layout_width="0dp"
@@ -49,12 +52,15 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1" />
         </LinearLayout>
+
+        <!-- Moves Left text -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1" >
 
+            <!-- Moves Left title-->
             <TextView
                 android:id="@+id/gamescreen_moves_left"
                 android:layout_width="0dp"
@@ -65,6 +71,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="3" />
 
+            <!-- Moves Left value -->
             <TextView
                 android:id="@+id/gamescreen_moves_left_value"
                 android:layout_width="0dp"
@@ -76,9 +83,14 @@
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_graphics"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"/>
+        <!-- Game screen interactive area -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_graphics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/tiled_grass"/>
+    </LinearLayout>
 </RelativeLayout>

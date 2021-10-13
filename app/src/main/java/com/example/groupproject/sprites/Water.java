@@ -14,6 +14,9 @@ import com.example.groupproject.R;
  * overlapping with the Water. When a collision with the
  * Water is detected, the player will fail the round and the
  * game over screen will appear.
+ *
+ * #### Image source:
+ * https://opengameart.org/content/lpc-tile-atlas
  */
 public class Water extends Decor {
 
