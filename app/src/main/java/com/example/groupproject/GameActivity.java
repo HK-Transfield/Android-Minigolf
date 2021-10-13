@@ -53,26 +53,34 @@ public class GameActivity extends AppCompatActivity {
             gd = new GestureDetector(context, new MyGestureListener());
         }
 
+        /**
+         * Sets the TextView that will be used to display the number of moves left.
+         *
+         * @param tv the TextView object passed from the activity
+         */
+        public void setMovesTextView(TextView tv) { movesTextView = tv; }
+
+        /**
+         * Sets the TextView that will be used to display the number of moves left.
+         *
+         * @param tv the TextView object passed from the activity
+         */
+        public void setScoreTextView(TextView tv) { scoreTextView = tv; }
+
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             golfBall.setPosition(w, h);
             target.setPosition(w, h);
 
+            // check that water won't overlap with anything
             water.setCurrentTarget(target);
             water.setPosition(w, h);
 
+            // check that the sand won't overlap with anything
             sand.setTargetCurrent(target);
             sand.setWaterCurrent(water);
             sand.setPosition(w, h);
-        }
-
-        public void setMovesTextView(TextView tv) {
-            movesTextView = tv;
-        }
-
-        public void setScoreTextView(TextView tv) {
-            scoreTextView = tv;
         }
 
         /**
@@ -83,35 +91,41 @@ public class GameActivity extends AppCompatActivity {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
+
+            // display current score and the number of moves left
             movesTextView.setText(String.valueOf(golfBall.getMovesLeft()));
             scoreTextView.setText(String.valueOf(score));
 
-            if (golfBall.getMovesLeft() == 0)
-                endGame(0);
+            // no more moves left, game over!
+            if (golfBall.getMovesLeft() == 0) endGame(0);
 
+            // redraw sprites
             target.drawSprite(canvas);
             water.drawSprite(canvas);
             sand.drawSprite(canvas);
             golfBall.drawSprite(canvas);
 
-            if(water.collisionCheck(golfBall.getX(), golfBall.getY()))
-                endGame(1);
+            // the ball hit some water, game over
+            if(water.collisionCheck(golfBall.getX(), golfBall.getY())) endGame(1);
 
+            // the ball hit the sand, slow it down
             if(sand.collisionCheck(golfBall.getX(), golfBall.getY())) {
                 if(!sand.getHasBallHit()) {
                     sand.setHasBallHit();
-                    golfBall.setGesture(0, 0);
                     golfBall.reduceVelocity(getColor(R.color.sandYellow));
                 }
             }
 
+            // the ball hit the target, increase score and start a new round
             if (target.collisionCheck(golfBall.getX(), golfBall.getY())) {
 
+                // increase the score
                 if(score == 0)
                     score++;
                 else
                     score += score * golfBall.getMovesLeft();
 
+                // set new position for sprites in next round
                 golfBall.setPosition(getWidth(), getHeight());
                 target.setPosition(getWidth(), getHeight());
                 water.setPosition(getWidth(), getHeight());
@@ -121,18 +135,22 @@ public class GameActivity extends AppCompatActivity {
         }
 
         /**
+         * The user has triggered an event that has caused a game over. This will
+         * display the GameOverActivity and display a unique message depending on
+         * what happened.
+         *
          * @param reason The reason to end the game. 1 = water, 0 = 0 moves left
          */
         private void endGame(int reason) {
-            this.setWillNotDraw(true);
+            this.setWillNotDraw(true); // make sure the game does not redraw anything
+
             Intent gameOver = new Intent(getContext(), GameOverActivity.class);
             gameOver.putExtra("score", score); // pass the score
-            if (reason == 0){
-                gameOver.putExtra("gameOverReason", "Ran out of moves"); // give the reason
-            }
-            else {
-                gameOver.putExtra("gameOverReason", "Ball in the water"); // give the reason
-            }
+
+            // pass the appropriate reason for ending the game
+            if (reason == 0) gameOver.putExtra("gameOverReason", "Ran out of moves");
+            else gameOver.putExtra("gameOverReason", "Ball in the water");
+
             startActivity(gameOver);
         }
 
@@ -149,6 +167,9 @@ public class GameActivity extends AppCompatActivity {
             return super.onTouchEvent(event);
         }
 
+        /**
+         * This class is used to listen for any swipes the user makes on the screen.
+         */
         private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
             @Override
@@ -158,6 +179,8 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+                // move the ball if the user swipes from the ball
                 if(golfBall.swipedBall(e1.getX(), e1.getY())) {
                     golfBall.setGesture(e2.getX(), e2.getY());
                 }
@@ -166,7 +189,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
     ///////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -174,6 +196,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // retrieve correct TextViews for displaying scores and moves left
         TextView movesTextView = findViewById(R.id.gamescreen_moves_left_value);
         TextView scoreTextView = findViewById(R.id.gamescreen_score_value);
 
@@ -190,6 +213,7 @@ public class GameActivity extends AppCompatActivity {
         ConstraintLayout constraintLayout = (ConstraintLayout)findViewById(R.id.constraint_layout_graphics);
         constraintLayout.addView(graphicsView);
 
+        // pass TextViews to custom view
         graphicsView.setMovesTextView(movesTextView);
         graphicsView.setScoreTextView(scoreTextView);
 
