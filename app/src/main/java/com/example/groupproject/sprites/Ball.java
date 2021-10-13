@@ -183,9 +183,9 @@ public class Ball extends Sprite {
         int direction = 0;
 
         // determine where to move the ball based on where the the user swiped the screen in relation to its stationary position
-        if(axisTouched + size <= axis && axisTouched - size <= axis) direction = -1; // move UP or LEFT
+        if(axisTouched + size < axis && axisTouched - size < axis) direction = -1; // move UP or LEFT
         if(axisTouched + size == axis && axisTouched - size == axis) direction = 0; // no movement in this direction
-        if(axisTouched + size >= axis && axisTouched - size >= axis) direction = 1; // move DOWN or RIGHT
+        if(axisTouched + size > axis && axisTouched - size > axis) direction = 1; // move DOWN or RIGHT
 
         // invert the direction when the circle collides with an edge
         if (collided) direction *= -1;
