@@ -15,9 +15,9 @@ public class Ball extends Sprite {
 
     /* CONSTANT CLASS MEMBER VARIABLES */
     private final int defaultColor = Color.WHITE; // default color of ball
-    private final int MAX_TIME = 30; // seconds (t)
-    private final float MAX_VELOCITY = 80;
-    private final int MAX_MOVES = 3;
+    private final int MAX_TIME = 20; // seconds (t)
+    private final float MAX_VELOCITY = 65;
+    private final int MAX_MOVES = 4;
     private final float[] gridXArr = new float[3]; // stores every point on the grid along the x-axis
     private final float[] gridYArr = new float[3]; // stores every point on the grid along the y-axis
 
