@@ -123,7 +123,7 @@ public class GameActivity extends AppCompatActivity {
                 if(score == 0)
                     score++;
                 else
-                    score += score * golfBall.getMovesLeft();
+                    score *= golfBall.getMovesLeft();
 
                 // set new position for sprites in next round
                 golfBall.setPosition(getWidth(), getHeight());
