@@ -8,7 +8,7 @@ import android.graphics.Color;
  * with. With the ball, the user will have to fling it within
  * a certain amount of moves, else they will lose.
  *
- * @author Harmon Transfield, 1317381
+ * @author HK Transfield
  */
 public class Ball extends Sprite {
 
